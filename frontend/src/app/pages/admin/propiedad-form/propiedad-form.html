@@ -33,7 +33,8 @@
     <div class="propiedad-form__grid">
       <div class="propiedad-form__columna">
         <h2>Datos básicos</h2>
-        @for (campo of CAMPOS_COMUNES; track campo.key) {
+
+        @for (campo of camposDatosBasicos; track campo.key) {
           <label class="campo">
             {{ campo.label }}{{ campo.requerido ? ' *' : '' }}
             @switch (campo.type) {
@@ -98,6 +99,92 @@
               }
             </label>
           }
+        }
+      </div>
+    </div>
+
+    <div class="propiedad-form__seccion-ubicacion">
+      <h2>Ubicación</h2>
+
+      <div class="propiedad-form__ubicacion-grid">
+        <label class="campo">
+          Zona geográfica *
+          <select [value]="form.get('zonaGeografica')?.value" (change)="cambiarZona($any($event.target).value)">
+            <option value="">Sin especificar</option>
+            @for (zona of ZONAS_GEOGRAFICAS; track zona) {
+              <option [value]="zona">{{ zona }}</option>
+            }
+          </select>
+          @if (campoInvalido('zonaGeografica')) {
+            <span class="propiedad-form__campo-error">Este campo es obligatorio.</span>
+          }
+        </label>
+
+        <label class="campo">
+          Partido / Localidad *
+          <select
+            [value]="form.get('partidoLocalidad')?.value"
+            (change)="cambiarPartido($any($event.target).value)"
+            [disabled]="partidosDisponibles.length === 0"
+          >
+            <option value="">
+              {{ partidosDisponibles.length === 0 ? 'Elegí primero la zona geográfica' : 'Sin especificar' }}
+            </option>
+            @for (partido of partidosDisponibles; track partido) {
+              <option [value]="partido">{{ partido }}</option>
+            }
+          </select>
+          @if (campoInvalido('partidoLocalidad')) {
+            <span class="propiedad-form__campo-error">Este campo es obligatorio.</span>
+          }
+        </label>
+
+        <label class="campo">
+          Barrio / Ciudad *
+          @if (barriosDisponibles.length > 0) {
+            <select formControlName="barrioCiudad">
+              <option value="">Sin especificar</option>
+              @for (barrio of barriosDisponibles; track barrio) {
+                <option [value]="barrio">{{ barrio }}</option>
+              }
+            </select>
+          } @else {
+            <input type="text" formControlName="barrioCiudad" />
+          }
+          @if (campoInvalido('barrioCiudad')) {
+            <span class="propiedad-form__campo-error">Este campo es obligatorio.</span>
+          }
+        </label>
+
+        @for (campo of camposUbicacion; track campo.key) {
+          <label class="campo">
+            {{ campo.label }}{{ campo.requerido ? ' *' : '' }}
+            @switch (campo.type) {
+              @case ('textarea') {
+                <textarea [formControlName]="campo.key" rows="4"></textarea>
+              }
+              @case ('select') {
+                <select [formControlName]="campo.key">
+                  <option value="">Sin especificar</option>
+                  @for (opcion of campo.opciones; track opcion) {
+                    <option [value]="opcion">{{ etiquetaOpcion(opcion) }}</option>
+                  }
+                </select>
+              }
+              @case ('checkbox') {
+                <input type="checkbox" [formControlName]="campo.key" />
+              }
+              @case ('number') {
+                <input type="number" [formControlName]="campo.key" />
+              }
+              @default {
+                <input type="text" [formControlName]="campo.key" />
+              }
+            }
+            @if (campoInvalido(campo.key)) {
+              <span class="propiedad-form__campo-error">Este campo es obligatorio.</span>
+            }
+          </label>
         }
       </div>
     </div>

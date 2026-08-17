@@ -63,4 +63,22 @@
       color: var(--color-text-muted);
     }
   }
+
+  @media (max-width: 640px) {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 1.2rem;
+
+    label {
+      flex: 1 1 auto;
+    }
+
+    &__botones {
+      flex-direction: column;
+
+      button {
+        width: 100%;
+      }
+    }
+  }
 }

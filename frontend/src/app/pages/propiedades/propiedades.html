@@ -6,8 +6,13 @@
 </section>
 
 <section class="listado">
+  <button type="button" class="listado__toggle-filtros" (click)="alternarFiltros()">
+    <span>{{ filtrosAbiertos() ? 'Ocultar filtros' : 'Filtros' }}</span>
+    <span class="listado__toggle-flecha" [class.is-abierta]="filtrosAbiertos()">⌄</span>
+  </button>
+
   <div class="listado__layout" [formGroup]="form">
-    <aside class="listado__sidebar">
+    <aside class="listado__sidebar" [class.is-abierto]="filtrosAbiertos()">
       <h2>Encontrá tu propiedad</h2>
 
       <div class="filtro-grupo">

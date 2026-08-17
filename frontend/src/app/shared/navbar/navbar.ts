@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { Icon } from '../icon/icon';
 import { FACEBOOK_URL, INSTAGRAM_URL } from '../redes';
@@ -12,4 +12,14 @@ import { FACEBOOK_URL, INSTAGRAM_URL } from '../redes';
 export class Navbar {
   protected readonly instagramUrl = INSTAGRAM_URL;
   protected readonly facebookUrl = FACEBOOK_URL;
+
+  protected readonly menuAbierto = signal(false);
+
+  alternarMenu(): void {
+    this.menuAbierto.update((abierto) => !abierto);
+  }
+
+  cerrarMenu(): void {
+    this.menuAbierto.set(false);
+  }
 }

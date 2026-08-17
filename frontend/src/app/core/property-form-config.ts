@@ -1,4 +1,5 @@
 import { Moneda, TipoPropiedad } from './models/propiedad';
+import { ZONAS_GEOGRAFICAS } from './geografia-argentina';
 
 export type FieldType = 'text' | 'textarea' | 'number' | 'select' | 'checkbox';
 
@@ -79,15 +80,17 @@ export const CAMPOS_COMUNES: FieldConfig[] = [
   ]),
   check('aptoProfesional', 'Apto profesional'),
   check('aceptaMascotas', 'Acepta mascotas'),
-  texto('zonaGeografica', 'Zona geográfica', true),
+  select('zonaGeografica', 'Zona geográfica', ZONAS_GEOGRAFICAS, true),
   texto('partidoLocalidad', 'Partido / Localidad', true),
   texto('barrioCiudad', 'Barrio / Ciudad', true),
   texto('calle', 'Calle', true),
   texto('nroCalle', 'Número'),
   texto('piso', 'Piso'),
   texto('depto', 'Depto'),
-  numero('latitud', 'Latitud (opcional, para mostrar el mapa)'),
-  numero('longitud', 'Longitud (opcional, para mostrar el mapa)'),
+  texto('entreCalle1', 'Entre calle 1'),
+  texto('entreCalle2', 'Entre calle 2'),
+  numero('latitud', 'Latitud (opcional)'),
+  numero('longitud', 'Longitud (opcional)'),
   textoArea('descripcion', 'Descripción', true),
 ];
 

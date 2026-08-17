@@ -36,6 +36,8 @@ export class Propiedades implements OnInit {
   protected readonly error = signal(false);
   protected readonly orden = signal<Orden>('recientes');
   protected readonly paginaActual = signal(1);
+  // Solo se usa en mobile: en escritorio el sidebar de filtros siempre está visible.
+  protected readonly filtrosAbiertos = signal(false);
 
   private readonly resultado = signal<Propiedad[]>([]);
   protected readonly propiedadesOrdenadas = computed(() => {
@@ -117,6 +119,10 @@ export class Propiedades implements OnInit {
 
   limpiarFiltros(): void {
     this.form.reset({ tipo: '', operacion: '', moneda: '', ubicacion: '', precioMin: '', precioMax: '' });
+  }
+
+  alternarFiltros(): void {
+    this.filtrosAbiertos.update((abiertos) => !abiertos);
   }
 
   cambiarOrden(event: Event): void {

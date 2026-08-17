@@ -16,6 +16,10 @@
   padding: 5.5rem 1.5rem;
   text-align: center;
 
+  @media (max-width: 600px) {
+    padding: 3.5rem 1.2rem;
+  }
+
   &__contenido {
     max-width: 640px;
     margin: 0 auto;
@@ -53,6 +57,10 @@
   background: var(--color-bg);
   padding: 5rem 1.5rem 6rem;
   text-align: center;
+
+  @media (max-width: 600px) {
+    padding: 3rem 1.2rem 3.5rem;
+  }
 
   &__inner {
     max-width: var(--max-width);
@@ -105,6 +113,10 @@
       &:hover {
         transform: scale(1.03);
       }
+
+      @media (max-width: 600px) {
+        min-height: 220px;
+      }
     }
   }
 
@@ -115,6 +127,10 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
+
+    @media (max-width: 600px) {
+      padding: 1.6rem;
+    }
   }
 
   &__cita {

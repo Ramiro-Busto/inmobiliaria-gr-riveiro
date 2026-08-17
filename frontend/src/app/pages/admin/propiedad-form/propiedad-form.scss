@@ -83,6 +83,18 @@
     gap: 1rem;
   }
 
+  &__seccion-ubicacion {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  &__ubicacion-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem 2rem;
+  }
+
   .campo--tipo {
     max-width: 340px;
     background: var(--color-bg-alt);
@@ -130,6 +142,11 @@
     align-self: flex-start;
   }
 
+  textarea {
+    // Solo alto: si se pudiera estirar el ancho, se sale de la columna y rompe el layout.
+    resize: vertical;
+  }
+
   button {
     padding: 0.75rem 1.4rem;
     border: none;
@@ -155,6 +172,7 @@
     color: var(--color-text-muted);
     font-size: 0.85rem;
   }
+
 
   &__fotos {
     display: flex;

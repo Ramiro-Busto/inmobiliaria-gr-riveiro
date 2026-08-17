@@ -1,3 +1,5 @@
+using System.Globalization;
+using System.Text;
 using Inmobiliaria.Api.Data;
 using Inmobiliaria.Api.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -10,6 +12,20 @@ namespace Inmobiliaria.Api.Controllers;
 [Route("api/propiedades")]
 public class PropiedadesController(AppDbContext db) : ControllerBase
 {
+    // Para que el filtro de ubicación no distinga mayúsculas/minúsculas ni tildes
+    // ("Berazategui" == "berazategui" == "BERAZATEGUI"). SQLite por sí solo no maneja
+    // bien los acentos, así que esta comparación se hace en memoria, no en la consulta SQL.
+    private static string Normalizar(string texto)
+    {
+        var descompuesto = texto.Normalize(NormalizationForm.FormD);
+        var builder = new StringBuilder();
+        foreach (var c in descompuesto)
+        {
+            if (CharUnicodeInfo.GetUnicodeCategory(c) != UnicodeCategory.NonSpacingMark) builder.Append(c);
+        }
+        return builder.ToString().Normalize(NormalizationForm.FormC).ToLowerInvariant();
+    }
+
     // Estados que se muestran en el sitio público. El resto (Borrador, Vendido, etc.)
     // solo los ve la administradora desde el panel.
     private static readonly EstadoPublicacion[] EstadosPublicos =
@@ -46,11 +62,6 @@ public class PropiedadesController(AppDbContext db) : ControllerBase
             query = query.Where(p => p.Moneda == moneda);
         }
 
-        if (!string.IsNullOrWhiteSpace(ubicacion))
-        {
-            query = query.Where(p => p.PartidoLocalidad.Contains(ubicacion) || p.BarrioCiudad.Contains(ubicacion));
-        }
-
         if (precioMin is not null)
         {
             query = query.Where(p => p.Monto >= precioMin);
@@ -61,7 +72,17 @@ public class PropiedadesController(AppDbContext db) : ControllerBase
             query = query.Where(p => p.Monto <= precioMax);
         }
 
-        return await query.ToListAsync();
+        var resultado = await query.ToListAsync();
+
+        if (!string.IsNullOrWhiteSpace(ubicacion))
+        {
+            var buscado = Normalizar(ubicacion);
+            resultado = resultado
+                .Where(p => Normalizar(p.PartidoLocalidad).Contains(buscado) || Normalizar(p.BarrioCiudad).Contains(buscado))
+                .ToList();
+        }
+
+        return resultado;
     }
 
     // Ve todas las propiedades sin importar el estado (incluye Borrador, Vendido, etc).

@@ -4,6 +4,10 @@
   margin: 0 auto;
   padding: 2rem 1.5rem 5rem;
 
+  @media (max-width: 600px) {
+    padding: 1.2rem 1rem 3rem;
+  }
+
   &__mensaje {
     color: var(--color-text-muted);
   }
@@ -57,6 +61,7 @@
     h1 {
       font-family: var(--font-body);
       font-weight: 800;
+      font-size: clamp(1.6rem, 4vw, 2.3rem);
       margin: 0 0 0.4rem;
     }
   }
@@ -95,6 +100,9 @@
   }
 
   // --- Galería + panel de contacto ---
+  // 3 piezas (galería+precio, contacto, descripción+ubicación) en vez de 2: así en mobile
+  // se puede reordenar para que "Consultar por WhatsApp" no quede escondido al final,
+  // después de toda la descripción.
   &__principal {
     display: grid;
     grid-template-columns: 1fr 380px;
@@ -107,8 +115,24 @@
     }
   }
 
-  &__columna-izquierda {
+  &__galeria-precio {
     min-width: 0;
+    grid-column: 1;
+
+    @media (max-width: 860px) {
+      grid-column: auto;
+      order: 1;
+    }
+  }
+
+  &__info {
+    min-width: 0;
+    grid-column: 1;
+
+    @media (max-width: 860px) {
+      grid-column: auto;
+      order: 3;
+    }
   }
 
   &__foto-principal {
@@ -244,6 +268,22 @@
     border-radius: 10px;
     padding: 1.6rem;
     box-shadow: var(--shadow);
+    // Ocupa las 2 "filas" (galería+precio y descripción+ubicación) para quedar como
+    // columna alta al lado de las dos, igual que antes. OJO: hay que fijar también la
+    // columna (no solo la fila) — si no, el navegador puede ubicar este elemento en la
+    // columna 1 (la ancha) en vez de la 2, porque prioriza a los ítems con fila fija por
+    // sobre los que no tienen posición fija, sin importar el orden en el HTML.
+    grid-column: 2;
+    grid-row: 1 / 3;
+
+    @media (max-width: 860px) {
+      // De una sola columna, "sticky" quedaría flotando pegado arriba mientras se
+      // scrollea toda la descripción/ubicación de abajo — mejor que fluya normal.
+      position: static;
+      grid-column: auto;
+      grid-row: auto;
+      order: 2;
+    }
   }
 
   &__whatsapp {
@@ -387,6 +427,7 @@
   &__direccion {
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
     gap: 0.4rem;
     color: var(--color-text-muted);
     margin: 0 0 1rem;
@@ -395,6 +436,10 @@
       color: var(--color-accent-dark);
       flex-shrink: 0;
     }
+  }
+
+  &__entre-calles {
+    font-size: 0.9rem;
   }
 
   &__mapa {
@@ -530,6 +575,11 @@
   background: var(--color-bg-alt);
   padding: 3.5rem 1.5rem;
   margin-top: 3rem;
+
+  @media (max-width: 600px) {
+    padding: 2.2rem 1rem;
+    margin-top: 1.5rem;
+  }
 
   &__inner {
     max-width: 1280px;

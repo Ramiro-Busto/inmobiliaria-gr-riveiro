@@ -37,7 +37,7 @@
     </div>
 
     <div class="detalle__principal">
-      <div class="detalle__columna-izquierda">
+      <div class="detalle__galeria-precio">
       <div class="detalle__galeria">
         @if (p.imagenes.length > 0) {
           <div class="detalle__foto-principal">
@@ -89,30 +89,6 @@
           </div>
         }
       </div>
-
-      <section class="detalle__seccion">
-        <h2>Descripción</h2>
-        <p class="detalle__descripcion">{{ p.descripcion }}</p>
-      </section>
-
-      <section class="detalle__seccion" id="ubicacion">
-        <h2>Ubicación</h2>
-        <p class="detalle__direccion">
-          <app-icon name="mapPin" [size]="16" />
-          {{ p.calle }} {{ p['nroCalle'] }}, {{ p.barrioCiudad }}, {{ p.partidoLocalidad }}
-        </p>
-
-        @if (tieneMapa()) {
-          <div class="detalle__mapa">
-            <iframe [src]="mapaSrc()" title="Ubicación en el mapa" loading="lazy"></iframe>
-          </div>
-          <a [href]="mapaLinkGrande()" target="_blank" rel="noopener" class="detalle__mapa-link">
-            Ver mapa más grande en OpenStreetMap ↗
-          </a>
-        } @else {
-          <p class="detalle__mapa-vacio">Todavía no se cargó la ubicación exacta de esta propiedad en el mapa.</p>
-        }
-      </section>
       </div>
 
       <aside class="detalle__contacto">
@@ -143,6 +119,35 @@
           }
         </div>
       </aside>
+
+      <div class="detalle__info">
+        <section class="detalle__seccion">
+          <h2>Descripción</h2>
+          <p class="detalle__descripcion">{{ p.descripcion }}</p>
+        </section>
+
+        <section class="detalle__seccion" id="ubicacion">
+          <h2>Ubicación</h2>
+          <p class="detalle__direccion">
+            <app-icon name="mapPin" [size]="16" />
+            {{ direccionCompleta() }}
+            @if (entreCalles()) {
+              <span class="detalle__entre-calles">({{ entreCalles() }})</span>
+            }
+          </p>
+
+          @if (tieneMapa()) {
+            <div class="detalle__mapa">
+              <iframe [src]="mapaSrc()" title="Ubicación en el mapa" loading="lazy"></iframe>
+            </div>
+            <a [href]="mapaLinkGrande()" target="_blank" rel="noopener" class="detalle__mapa-link">
+              Ver mapa más grande en OpenStreetMap ↗
+            </a>
+          } @else {
+            <p class="detalle__mapa-vacio">Todavía no se cargó la ubicación exacta de esta propiedad en el mapa.</p>
+          }
+        </section>
+      </div>
     </div>
 
     <section class="detalle__acordeones">

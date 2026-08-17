@@ -106,6 +106,30 @@ export class PropiedadDetalle implements OnInit {
     return p ? calcularTarjetas(p) : [];
   });
 
+  // Dirección completa para el renglón de arriba del mapa: solo suma lo que esté cargado
+  // (piso/depto, entre calles), sin dejar huecos raros si la propiedad no los tiene.
+  protected readonly direccionCompleta = computed(() => {
+    const p = this.propiedad();
+    if (!p) return '';
+
+    const calleYNro = [p.calle, p['nroCalle']].filter(Boolean).join(' ');
+    const pisoDepto = [p['piso'] ? `Piso ${p['piso']}` : null, p['depto'] ? `Depto ${p['depto']}` : null]
+      .filter(Boolean)
+      .join(', ');
+
+    return [calleYNro, pisoDepto, p.barrioCiudad, p.partidoLocalidad].filter(Boolean).join(', ');
+  });
+
+  protected readonly entreCalles = computed(() => {
+    const p = this.propiedad();
+    if (!p) return null;
+
+    const calle1 = p['entreCalle1'] as string | undefined;
+    const calle2 = p['entreCalle2'] as string | undefined;
+    if (calle1 && calle2) return `entre ${calle1} y ${calle2}`;
+    return null;
+  });
+
   protected readonly datosBasicos = computed(() => {
     const p = this.propiedad();
     return p ? datosBasicos(p) : [];

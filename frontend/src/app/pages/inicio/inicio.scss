@@ -44,11 +44,25 @@
       display: block;
     }
   }
+
+  @media (max-width: 760px) {
+    padding: 3.5rem 1.2rem 2.5rem;
+
+    // El buscador apilado (un campo debajo del otro) queda mucho más alto: el truco de
+    // superponerlo con la sección de abajo estaba pensado para la caja bajita de escritorio.
+    &__buscador {
+      margin: 2rem auto 0;
+    }
+  }
 }
 
 .destacadas {
   background: var(--color-bg-alt);
   padding: 6.5rem 1.5rem 4.5rem;
+
+  @media (max-width: 760px) {
+    padding: 2.5rem 1.2rem 3rem;
+  }
 
   &__inner {
     max-width: var(--max-width);
@@ -132,12 +146,24 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
   gap: 1.5rem;
+
+  // Que las tarjetas visibles al cargar se vayan apareciendo una tras otra, no todas de
+  // golpe. Solo alcanza a las primeras (las que entran de "Ver más" ya aparecen solas).
+  @for $i from 1 through 12 {
+    app-propiedad-card:nth-child(#{$i}) {
+      animation-delay: #{$i * 0.05}s;
+    }
+  }
 }
 
 .servicios {
   background: var(--color-bg);
   padding: 5.5rem 1.5rem;
   text-align: center;
+
+  @media (max-width: 760px) {
+    padding: 3rem 1.2rem;
+  }
 
   &__inner {
     max-width: var(--max-width);
@@ -216,6 +242,10 @@
   background: var(--color-bg-alt);
   padding: 5.5rem 1.5rem 6rem;
 
+  @media (max-width: 760px) {
+    padding: 3rem 1.2rem 3.5rem;
+  }
+
   &__inner {
     max-width: var(--max-width);
     margin: 0 auto;
@@ -226,6 +256,7 @@
 
     @media (max-width: 760px) {
       grid-template-columns: 1fr;
+      gap: 1.8rem;
     }
   }
 
@@ -239,6 +270,10 @@
       height: 420px;
       object-fit: cover;
       display: block;
+
+      @media (max-width: 760px) {
+        height: 260px;
+      }
     }
   }
 

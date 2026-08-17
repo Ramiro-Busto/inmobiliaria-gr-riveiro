@@ -6,6 +6,9 @@ import { PropiedadesService } from '../../../core/propiedades.service';
 import { ImagenesService } from '../../../core/imagenes.service';
 import { imagenUrl } from '../../../core/api-config';
 import { Propiedad, TipoPropiedad } from '../../../core/models/propiedad';
+import { ZONAS_GEOGRAFICAS, PARTIDOS_POR_ZONA, BARRIOS_POR_PARTIDO_ZONA_SUR } from '../../../core/geografia-argentina';
+
+const ZONA_SUR = 'Bs.As. G.B.A. Zona Sur';
 import {
   CAMPOS_COMUNES,
   CAMPOS_POR_TIPO,
@@ -18,6 +21,24 @@ import {
 interface ImagenCargada {
   url: string;
 }
+
+// Todos los campos de ubicación se muestran juntos en su propia sección (entre "Fotos" y
+// "Datos básicos"), no en el loop genérico de "Datos básicos". Zona y Partido además van en
+// combos encadenados en vez del <select>/<input> genérico.
+const CAMPOS_UBICACION_CASCADA = new Set(['zonaGeografica', 'partidoLocalidad', 'barrioCiudad']);
+const CLAVES_UBICACION = new Set([
+  'zonaGeografica',
+  'partidoLocalidad',
+  'barrioCiudad',
+  'calle',
+  'nroCalle',
+  'piso',
+  'depto',
+  'entreCalle1',
+  'entreCalle2',
+  'latitud',
+  'longitud',
+]);
 
 @Component({
   selector: 'app-propiedad-form',
@@ -33,9 +54,16 @@ export class PropiedadForm implements OnInit {
   private readonly router = inject(Router);
 
   protected readonly CAMPOS_COMUNES = CAMPOS_COMUNES;
+  protected readonly camposDatosBasicos = CAMPOS_COMUNES.filter((c) => !CLAVES_UBICACION.has(c.key));
+  // Barrio/Ciudad, Calle, Nro, Piso, Depto, Latitud y Longitud (Zona y Partido van aparte,
+  // en combos encadenados).
+  protected readonly camposUbicacion = CAMPOS_COMUNES.filter(
+    (c) => CLAVES_UBICACION.has(c.key) && !CAMPOS_UBICACION_CASCADA.has(c.key),
+  );
   protected readonly TIPOS_PROPIEDAD = TIPOS_PROPIEDAD;
   protected readonly TIPO_LABELS = TIPO_LABELS;
   protected readonly etiquetaOpcion = etiquetaOpcion;
+  protected readonly ZONAS_GEOGRAFICAS = ZONAS_GEOGRAFICAS;
 
   protected readonly tipoSeleccionado = signal<TipoPropiedad | null>(null);
   protected readonly camposEspecificos = computed<FieldConfig[]>(() => {
@@ -101,7 +129,54 @@ export class PropiedadForm implements OnInit {
 
   protected campoInvalido(key: string): boolean {
     const control = this.form.get(key);
-    return !!control && control.invalid && control.touched;
+    if (!control) return false;
+    if (control.invalid && control.touched) return true;
+
+    // "Entre calle 1" y "Entre calle 2": no son obligatorias por sí solas, pero si se
+    // completa una, la otra pasa a serlo (no tiene sentido cargar solo una de las dos).
+    if (key === 'entreCalle1' || key === 'entreCalle2') {
+      const otraClave = key === 'entreCalle1' ? 'entreCalle2' : 'entreCalle1';
+      const otraCompleta = !!this.form.get(otraClave)?.value;
+      return control.touched && !control.value && otraCompleta;
+    }
+
+    return false;
+  }
+
+  protected get partidosDisponibles(): string[] {
+    const zona = this.form.get('zonaGeografica')?.value;
+    return zona ? (PARTIDOS_POR_ZONA[zona] ?? []) : [];
+  }
+
+  // Solo tenemos barrios cargados para Zona Sur (donde opera la inmobiliaria). Para el
+  // resto de las zonas, o un partido sin datos todavía, Barrio/Ciudad sigue siendo texto libre.
+  protected get barriosDisponibles(): string[] {
+    if (this.form.get('zonaGeografica')?.value !== ZONA_SUR) return [];
+    const partido = this.form.get('partidoLocalidad')?.value;
+    return partido ? (BARRIOS_POR_PARTIDO_ZONA_SUR[partido] ?? []) : [];
+  }
+
+  cambiarZona(valor: string): void {
+    this.form.get('zonaGeografica')?.setValue(valor);
+    this.form.get('zonaGeografica')?.markAsTouched();
+
+    // Si el partido que estaba elegido no existe en la zona nueva, se limpia (y con él, el barrio).
+    const partidoActual = this.form.get('partidoLocalidad')?.value;
+    if (partidoActual && !this.partidosDisponibles.includes(partidoActual)) {
+      this.form.get('partidoLocalidad')?.setValue('');
+      this.form.get('barrioCiudad')?.setValue('');
+    }
+  }
+
+  cambiarPartido(valor: string): void {
+    this.form.get('partidoLocalidad')?.setValue(valor);
+    this.form.get('partidoLocalidad')?.markAsTouched();
+
+    // Si el barrio que estaba elegido no existe para el partido nuevo, se limpia.
+    const barrioActual = this.form.get('barrioCiudad')?.value;
+    if (barrioActual && !this.barriosDisponibles.includes(barrioActual)) {
+      this.form.get('barrioCiudad')?.setValue('');
+    }
   }
 
   subirImagenes(event: Event): void {
@@ -162,6 +237,11 @@ export class PropiedadForm implements OnInit {
     const faltantes = todos.filter((campo) => this.form.get(campo.key)?.invalid).map((campo) => campo.label);
 
     if (!this.tipoSeleccionado()) faltantes.unshift('Tipo de propiedad');
+
+    const entreCalle1 = this.form.get('entreCalle1')?.value;
+    const entreCalle2 = this.form.get('entreCalle2')?.value;
+    if (entreCalle1 && !entreCalle2) faltantes.push('Entre calle 2');
+    if (entreCalle2 && !entreCalle1) faltantes.push('Entre calle 1');
 
     return faltantes;
   }

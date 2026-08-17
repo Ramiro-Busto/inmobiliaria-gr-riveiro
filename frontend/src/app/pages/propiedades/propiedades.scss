@@ -3,6 +3,10 @@
   padding: 2.5rem 1.5rem;
   border-bottom: 1px solid var(--color-border);
 
+  @media (max-width: 760px) {
+    padding: 1.8rem 1.2rem;
+  }
+
   &__inner {
     max-width: var(--max-width);
     margin: 0 auto;
@@ -31,6 +35,39 @@
   margin: 0 auto;
   padding: 2.5rem 1.5rem 4rem;
 
+  @media (max-width: 860px) {
+    padding: 1.5rem 1.2rem 3rem;
+  }
+
+  &__toggle-filtros {
+    display: none;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.9rem 1.1rem;
+    margin-bottom: 1.2rem;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    font: inherit;
+    font-weight: 700;
+    color: var(--color-text);
+    cursor: pointer;
+
+    @media (max-width: 860px) {
+      display: flex;
+    }
+  }
+
+  &__toggle-flecha {
+    color: var(--color-accent-dark);
+    transition: transform 0.15s ease;
+
+    &.is-abierta {
+      transform: rotate(180deg);
+    }
+  }
+
   &__layout {
     display: grid;
     grid-template-columns: 260px 1fr;
@@ -48,6 +85,18 @@
       font-weight: 800;
       font-size: 1.15rem;
       margin: 0 0 1.2rem;
+    }
+
+    @media (max-width: 860px) {
+      display: none;
+      background: var(--color-bg-alt);
+      border-radius: var(--radius);
+      padding: 1.2rem;
+      margin-bottom: 1.5rem;
+
+      &.is-abierto {
+        display: block;
+      }
     }
   }
 
@@ -153,6 +202,14 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 1.5rem;
+
+  // Que las tarjetas se vayan apareciendo una tras otra al entrar a la página, no todas
+  // de golpe.
+  @for $i from 1 through 12 {
+    app-propiedad-card:nth-child(#{$i}) {
+      animation-delay: #{$i * 0.05}s;
+    }
+  }
 }
 
 .listado__paginacion {
