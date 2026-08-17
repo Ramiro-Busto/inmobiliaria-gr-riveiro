@@ -28,7 +28,12 @@ builder.Services.AddOpenApi();
 // todo sigue funcionando exactamente como antes (base en la carpeta del proyecto, fotos en
 // wwwroot/uploads).
 var dataDir = builder.Configuration["Storage:DataDir"];
-if (dataDir is not null) Directory.CreateDirectory(dataDir);
+if (dataDir is not null)
+{
+    // PhysicalFileProvider (más abajo) exige que la carpeta ya exista al arrancar; si no,
+    // tira una excepción sin manejar en pleno startup y el proceso aborta de mala manera.
+    Directory.CreateDirectory(Path.Combine(dataDir, "uploads", "propiedades"));
+}
 
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
