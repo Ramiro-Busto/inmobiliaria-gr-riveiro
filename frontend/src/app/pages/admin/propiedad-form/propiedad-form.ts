@@ -4,6 +4,7 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { CdkDragDrop, DragDropModule, moveItemInArray } from '@angular/cdk/drag-drop';
 import { PropiedadesService } from '../../../core/propiedades.service';
 import { ImagenesService } from '../../../core/imagenes.service';
+import { Icon } from '../../../shared/icon/icon';
 import { imagenUrl } from '../../../core/api-config';
 import { Propiedad, TipoPropiedad } from '../../../core/models/propiedad';
 import { ZONAS_GEOGRAFICAS, PARTIDOS_POR_ZONA, BARRIOS_POR_PARTIDO_ZONA_SUR } from '../../../core/geografia-argentina';
@@ -42,7 +43,7 @@ const CLAVES_UBICACION = new Set([
 
 @Component({
   selector: 'app-propiedad-form',
-  imports: [ReactiveFormsModule, DragDropModule, RouterLink],
+  imports: [ReactiveFormsModule, DragDropModule, RouterLink, Icon],
   templateUrl: './propiedad-form.html',
   styleUrl: './propiedad-form.scss',
 })
@@ -80,6 +81,7 @@ export class PropiedadForm implements OnInit {
   protected readonly imagenes = signal<ImagenCargada[]>([]);
   protected readonly subiendoImagen = signal(false);
   protected readonly errorImagen = signal<string | null>(null);
+  protected readonly arrastrandoImagen = signal(false);
   protected readonly imagenUrl = imagenUrl;
 
   protected readonly form: FormGroup = this.fb.group({});
@@ -182,6 +184,29 @@ export class PropiedadForm implements OnInit {
   subirImagenes(event: Event): void {
     const input = event.target as HTMLInputElement;
     const archivos = input.files ? Array.from(input.files) : [];
+    this.subirArchivos(archivos);
+    input.value = '';
+  }
+
+  soltarImagenes(event: DragEvent): void {
+    event.preventDefault();
+    this.arrastrandoImagen.set(false);
+
+    const archivos = event.dataTransfer?.files ? Array.from(event.dataTransfer.files) : [];
+    const imagenes = archivos.filter((archivo) => archivo.type.startsWith('image/'));
+    this.subirArchivos(imagenes);
+  }
+
+  arrastreSobreZona(event: DragEvent): void {
+    event.preventDefault();
+    this.arrastrandoImagen.set(true);
+  }
+
+  arrastreFueraDeZona(): void {
+    this.arrastrandoImagen.set(false);
+  }
+
+  private subirArchivos(archivos: File[]): void {
     if (archivos.length === 0) return;
 
     this.subiendoImagen.set(true);
@@ -202,8 +227,6 @@ export class PropiedadForm implements OnInit {
         },
       });
     }
-
-    input.value = '';
   }
 
   quitarImagen(index: number): void {

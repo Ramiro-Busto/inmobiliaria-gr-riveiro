@@ -200,7 +200,7 @@
         <div
           class="propiedad-form__fotos"
           cdkDropList
-          cdkDropListOrientation="horizontal"
+          cdkDropListOrientation="mixed"
           (cdkDropListDropped)="reordenarImagenes($event)"
         >
           @for (imagen of imagenes(); track imagen.url; let i = $index) {
@@ -215,10 +215,30 @@
         </div>
       }
 
-      <label class="campo">
-        Agregar fotos (la primera que subas queda como portada)
-        <input type="file" accept="image/png,image/jpeg,image/webp" multiple (change)="subirImagenes($event)" />
-      </label>
+      <div
+        class="propiedad-form__zona-subida"
+        [class.is-arrastrando]="arrastrandoImagen()"
+        (dragover)="arrastreSobreZona($event)"
+        (dragleave)="arrastreFueraDeZona()"
+        (drop)="soltarImagenes($event)"
+      >
+        <app-icon name="upload" [size]="26" />
+        <p class="propiedad-form__zona-subida-texto">
+          Arrastrá y soltá las fotos acá, o
+          <button type="button" class="propiedad-form__boton-subir" (click)="inputArchivos.click()">
+            elegí archivos
+          </button>
+        </p>
+        <span class="propiedad-form__zona-subida-nota">La primera imagen queda como portada</span>
+        <input
+          #inputArchivos
+          type="file"
+          accept="image/png,image/jpeg,image/webp"
+          multiple
+          hidden
+          (change)="subirImagenes($event)"
+        />
+      </div>
 
       @if (subiendoImagen()) {
         <p class="propiedad-form__nota">Subiendo...</p>
