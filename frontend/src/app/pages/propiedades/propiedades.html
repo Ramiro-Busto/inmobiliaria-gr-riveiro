@@ -1,0 +1,130 @@
+<section class="listado-header">
+  <div class="listado-header__inner">
+    <span class="listado-header__eyebrow">Listado</span>
+    <h1>Propiedades</h1>
+  </div>
+</section>
+
+<section class="listado">
+  <div class="listado__layout" [formGroup]="form">
+    <aside class="listado__sidebar">
+      <h2>Encontrá tu propiedad</h2>
+
+      <div class="filtro-grupo">
+        <h3>Operación</h3>
+        <label class="filtro-radio">
+          <input type="radio" formControlName="operacion" value="" />
+          Todas
+        </label>
+        @for (op of OPERACIONES; track op) {
+          <label class="filtro-radio">
+            <input type="radio" formControlName="operacion" [value]="op" />
+            {{ etiquetaOpcion(op) }}
+          </label>
+        }
+      </div>
+
+      <div class="filtro-grupo">
+        <h3>Tipo</h3>
+        <label class="filtro-radio">
+          <input type="radio" formControlName="tipo" value="" />
+          Todos
+        </label>
+        @for (tipo of TIPOS_PROPIEDAD; track tipo) {
+          <label class="filtro-radio">
+            <input type="radio" formControlName="tipo" [value]="tipo" />
+            {{ TIPO_LABELS[tipo] }}
+          </label>
+        }
+      </div>
+
+      <div class="filtro-grupo">
+        <h3>Moneda</h3>
+        <label class="filtro-radio">
+          <input type="radio" formControlName="moneda" value="" />
+          Cualquiera
+        </label>
+        @for (m of MONEDAS; track m.valor) {
+          <label class="filtro-radio">
+            <input type="radio" formControlName="moneda" [value]="m.valor" />
+            {{ m.etiqueta }}
+          </label>
+        }
+      </div>
+
+      <div class="filtro-grupo">
+        <h3>Ubicación</h3>
+        <input type="text" formControlName="ubicacion" placeholder="Barrio o ciudad" class="filtro-texto" />
+      </div>
+
+      <div class="filtro-grupo">
+        <h3>Precio</h3>
+        <input type="number" formControlName="precioMin" placeholder="Desde" class="filtro-texto" />
+        <input type="number" formControlName="precioMax" placeholder="Hasta" class="filtro-texto" />
+      </div>
+
+      <button type="button" class="listado__limpiar" (click)="limpiarFiltros()">Limpiar filtros</button>
+    </aside>
+
+    <div class="listado__contenido">
+      <div class="listado__toolbar">
+        <span class="listado__contador">
+          @if (!cargando()) {
+            {{ propiedadesOrdenadas().length }} propiedad{{ propiedadesOrdenadas().length === 1 ? '' : 'es' }}
+            encontrada{{ propiedadesOrdenadas().length === 1 ? '' : 's' }}
+          }
+        </span>
+
+        <select class="listado__orden" (change)="cambiarOrden($event)">
+          <option value="recientes">Más recientes</option>
+          <option value="precioAsc">Menor precio</option>
+          <option value="precioDesc">Mayor precio</option>
+        </select>
+      </div>
+
+      @if (cargando()) {
+        <p class="listado__mensaje">Cargando...</p>
+      } @else if (error()) {
+        <p class="listado__mensaje">No se pudieron cargar las propiedades. ¿Está corriendo el backend?</p>
+      } @else if (propiedadesOrdenadas().length === 0) {
+        <p class="listado__mensaje">No se encontraron propiedades con esos filtros.</p>
+      } @else {
+        <div class="grid">
+          @for (propiedad of propiedades(); track propiedad.id) {
+            <app-propiedad-card [propiedad]="propiedad" />
+          }
+        </div>
+
+        @if (totalPaginas() > 1) {
+          <nav class="listado__paginacion" aria-label="Paginación de resultados">
+            @for (pagina of paginas(); track pagina) {
+              <button
+                type="button"
+                [class.is-activa]="pagina === paginaActual()"
+                (click)="irAPagina(pagina)"
+              >
+                {{ pagina }}
+              </button>
+            }
+            <button
+              type="button"
+              [disabled]="paginaActual() === totalPaginas()"
+              (click)="irAPagina(paginaActual() + 1)"
+              aria-label="Página siguiente"
+            >
+              ›
+            </button>
+            <button
+              type="button"
+              [disabled]="paginaActual() === totalPaginas()"
+              (click)="irAPagina(totalPaginas())"
+              aria-label="Última página"
+            >
+              »
+            </button>
+          </nav>
+        }
+      }
+    </div>
+  </div>
+</section>

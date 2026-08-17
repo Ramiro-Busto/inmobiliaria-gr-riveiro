@@ -1,0 +1,80 @@
+<footer class="footer">
+  <div class="footer__cta">
+    <h2>¿Tenés alguna consulta?</h2>
+    <p>Escribinos y te respondemos a la brevedad.</p>
+    <a [href]="linkWhatsapp" target="_blank" rel="noopener" class="footer__whatsapp">
+      Escribinos por WhatsApp
+    </a>
+  </div>
+
+  <div class="footer__columnas">
+    <div class="footer__columna">
+      <img class="footer__logo" src="/logo-gr-riveiro.png" alt="GR Riveiro Negocios Inmobiliarios" />
+
+      <div class="footer__redes">
+        <a [href]="linkWhatsapp" target="_blank" rel="noopener">
+          <app-icon name="whatsapp" [size]="16" />
+          <span>{{ telefonoDisplay }}</span>
+        </a>
+        <a [href]="linkMail">
+          <app-icon name="mail" [size]="16" />
+          <span>{{ mail }}</span>
+        </a>
+        <a [href]="instagramUrl" target="_blank" rel="noopener">
+          <app-icon name="instagram" [size]="16" />
+          <span>{{ instagramHandle }}</span>
+        </a>
+        <a [href]="facebookUrl" target="_blank" rel="noopener">
+          <app-icon name="facebook" [size]="16" />
+          <span>{{ facebookHandle }}</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="footer__columna">
+      <h3>Navegación</h3>
+      <a routerLink="/">Inicio</a>
+      <a routerLink="/propiedades">Propiedades</a>
+      <a routerLink="/la-empresa">La Empresa</a>
+      <a routerLink="/tasaciones">Tasaciones</a>
+      <a routerLink="/contacto">Contacto</a>
+    </div>
+
+    <div class="footer__columna">
+      <h3>Contacto</h3>
+
+      <span class="footer__item">
+        <app-icon name="mapPin" [size]="16" />
+        <span>Av. 12 de Octubre N° 463, Quilmes, Bs.As.</span>
+      </span>
+
+      <span class="footer__item">
+        <app-icon name="clock" [size]="16" />
+        <span>Lunes a Viernes de 10 a 17 hs — Sábados de 10 a 13 hs</span>
+      </span>
+
+      <a class="footer__item" [href]="linkWhatsapp" target="_blank" rel="noopener">
+        <app-icon name="whatsapp" [size]="16" />
+        <span>{{ telefonoDisplay }}</span>
+      </a>
+
+      <a class="footer__item" [href]="linkTelefono">
+        <app-icon name="phone" [size]="16" />
+        <span>{{ telefonoDisplay }}</span>
+      </a>
+
+      <a class="footer__item" [href]="linkMail">
+        <app-icon name="mail" [size]="16" />
+        <span>{{ mail }}</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="footer__legal">
+    <span>© {{ anio }} GR Riveiro Negocios Inmobiliarios. Todos los derechos reservados.</span>
+    <span class="footer__creditos">
+      Hecho con <span class="footer__corazon" aria-hidden="true">♥</span> por
+      <a href="https://ramirobusto.netlify.app/" target="_blank" rel="noopener">Ramiro Busto</a>
+    </span>
+  </div>
+</footer>

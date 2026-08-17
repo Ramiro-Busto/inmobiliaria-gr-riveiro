@@ -1,0 +1,90 @@
+<div class="card">
+  <a class="card__link" [routerLink]="['/propiedades', propiedad.id]">
+    <div class="card__imagen-wrap">
+      @if (propiedad.imagenes.length > 0) {
+        <img [src]="imagenUrl(propiedad.imagenes[0].url)" [alt]="propiedad.titulo" />
+      } @else {
+        <div class="card__sin-imagen">Sin foto</div>
+      }
+
+      <div class="card__badges">
+        @if (propiedad.operacion) {
+          <span class="card__badge card__badge--operacion">{{ etiquetaOpcion(propiedad.operacion) }}</span>
+        }
+        <span class="card__badge card__badge--tipo">{{ TIPO_LABELS[propiedad.tipo] }}</span>
+      </div>
+    </div>
+
+    <div class="card__body">
+      <p class="card__ubicacion">
+        <app-icon name="mapPin" [size]="14" />
+        {{ propiedad.barrioCiudad }}, {{ propiedad.partidoLocalidad }}
+      </p>
+
+      <h3>{{ propiedad.titulo }}</h3>
+
+      <p class="card__precio">
+        @if (!propiedad.noPublicarPrecio && propiedad.monto) {
+          <span class="card__moneda">{{ etiquetaMoneda(propiedad.moneda) }}</span>
+          <span class="card__monto">{{ propiedad.monto | number }}</span>
+        }
+      </p>
+
+      @if (expensas()) {
+        <p class="card__expensas">+ $ {{ expensas() | number }} expensas</p>
+      }
+
+      <hr class="card__separador" />
+
+      <div class="card__caracteristicas">
+        @for (caracteristica of caracteristicas(); track caracteristica.texto) {
+          <span><app-icon [name]="caracteristica.icono" [size]="15" />{{ caracteristica.texto }}</span>
+        }
+      </div>
+    </div>
+  </a>
+
+  <div class="card__acciones">
+    <a
+      class="card__whatsapp"
+      [href]="linkWhatsapp()"
+      target="_blank"
+      rel="noopener"
+      aria-label="Consultar por WhatsApp"
+    >
+      <app-icon name="whatsapp" [size]="18" />
+    </a>
+    <button type="button" class="card__contactar" (click)="abrirContacto($event)">Contactar</button>
+  </div>
+</div>
+
+@if (modalAbierto()) {
+  <div class="card-modal" (click)="cerrarContacto()">
+    <div class="card-modal__panel" (click)="$event.stopPropagation()">
+      <button type="button" class="card-modal__cerrar" (click)="cerrarContacto()" aria-label="Cerrar">
+        <app-icon name="close" [size]="18" />
+      </button>
+
+      @if (enviado()) {
+        <h3>¡Gracias!</h3>
+        <p>Recibimos tu mensaje, te vamos a contactar a la brevedad.</p>
+      } @else {
+        <h3>Contáctanos</h3>
+        <form [formGroup]="form" (ngSubmit)="enviarContacto()">
+          <input type="text" placeholder="Nombre *" formControlName="nombre" />
+          <input type="tel" placeholder="Teléfono *" formControlName="telefono" />
+          <input type="email" placeholder="Email *" formControlName="email" />
+          <textarea rows="4" formControlName="mensaje"></textarea>
+
+          @if (error()) {
+            <p class="card-modal__error">No se pudo enviar. Probá de nuevo en un momento.</p>
+          }
+
+          <button type="submit" [disabled]="enviando()">
+            {{ enviando() ? 'Enviando...' : 'Contactar' }}
+          </button>
+        </form>
+      }
+    </div>
+  </div>
+}

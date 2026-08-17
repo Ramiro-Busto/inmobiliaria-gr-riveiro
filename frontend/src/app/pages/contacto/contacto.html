@@ -1,0 +1,107 @@
+<section class="contacto">
+  <div class="contacto__inner">
+    <div class="contacto__ubicacion">
+      <span class="contacto__eyebrow">Contacto</span>
+      <h1>Casa Central</h1>
+
+      <ul class="contacto__lista">
+        <li>
+          <app-icon name="mapPin" [size]="18" />
+          <span>Av. 12 de Octubre N° 463, Quilmes, Bs.As. G.B.A. Zona Sur</span>
+        </li>
+        <li>
+          <app-icon name="clock" [size]="18" />
+          <span>Lunes a Viernes de 10 a 17 hs — Sábados de 10 a 13 hs</span>
+        </li>
+        <li>
+          <a [href]="linkMail">
+            <app-icon name="mail" [size]="18" />
+            <span>{{ mail }}</span>
+          </a>
+        </li>
+        <li>
+          <a [href]="linkWhatsapp" target="_blank" rel="noopener">
+            <app-icon name="whatsapp" [size]="18" />
+            <span>{{ telefonoDisplay }}</span>
+          </a>
+        </li>
+        <li>
+          <a [href]="linkTelefono">
+            <app-icon name="phone" [size]="18" />
+            <span>{{ telefonoDisplay }}</span>
+          </a>
+        </li>
+      </ul>
+
+      <div class="contacto__mapa">
+        <iframe [src]="mapaSrc" title="Ubicación de la oficina" loading="lazy"></iframe>
+      </div>
+      <a [href]="mapaLinkGrande" target="_blank" rel="noopener" class="contacto__mapa-link">
+        Ver mapa más grande en OpenStreetMap ↗
+      </a>
+    </div>
+
+    <div class="contacto__form">
+      @if (enviado()) {
+        <div class="contacto__gracias">
+          <app-icon name="whatsapp" [size]="32" />
+          <h2>¡Gracias!</h2>
+          <p>Recibimos tu mensaje, te vamos a contestar a la brevedad.</p>
+        </div>
+      } @else {
+        <h2>Enviar mensaje</h2>
+        <p>Dejanos tus datos y te contactamos a la brevedad.</p>
+
+        <form [formGroup]="form" (ngSubmit)="enviar()">
+          <label [class.is-invalido]="intentoEnviar() && form.controls.nombre.invalid">
+            Nombre
+            <input type="text" formControlName="nombre" />
+            <span class="contacto__campo-error" [class.is-visible]="intentoEnviar() && form.controls.nombre.invalid">
+              Este campo es requerido.
+            </span>
+          </label>
+
+          <label [class.is-invalido]="intentoEnviar() && form.controls.apellido.invalid">
+            Apellido
+            <input type="text" formControlName="apellido" />
+            <span class="contacto__campo-error" [class.is-visible]="intentoEnviar() && form.controls.apellido.invalid">
+              Este campo es requerido.
+            </span>
+          </label>
+
+          <label [class.is-invalido]="intentoEnviar() && form.controls.telefono.invalid">
+            Teléfono
+            <input type="tel" formControlName="telefono" />
+            <span class="contacto__campo-error" [class.is-visible]="intentoEnviar() && form.controls.telefono.invalid">
+              Este campo es requerido.
+            </span>
+          </label>
+
+          <label [class.is-invalido]="intentoEnviar() && form.controls.email.invalid">
+            Email
+            <input type="email" formControlName="email" />
+            <span class="contacto__campo-error" [class.is-visible]="intentoEnviar() && form.controls.email.invalid">
+              {{ form.controls.email.errors?.['required'] ? 'Este campo es requerido.' : 'Ingresá un email válido.' }}
+            </span>
+          </label>
+
+          <label [class.is-invalido]="intentoEnviar() && form.controls.mensaje.invalid">
+            Mensaje
+            <textarea #mensajeTextarea formControlName="mensaje" rows="3" (input)="autoAjustarAltura(mensajeTextarea)"></textarea>
+            <span class="contacto__campo-error" [class.is-visible]="intentoEnviar() && form.controls.mensaje.invalid">
+              Este campo es requerido.
+            </span>
+          </label>
+
+          @if (error()) {
+            <p class="contacto__error">No se pudo enviar el mensaje. Probá de nuevo en un momento.</p>
+          }
+
+          <button type="submit" [disabled]="enviando()">
+            {{ enviando() ? 'Enviando...' : 'Enviar' }}
+          </button>
+        </form>
+      }
+    </div>
+  </div>
+</section>

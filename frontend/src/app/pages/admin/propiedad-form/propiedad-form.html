@@ -1,0 +1,153 @@
+<section class="propiedad-form">
+  <a routerLink="/admin/panel" class="propiedad-form__volver">‹ Volver al panel</a>
+
+  <span class="propiedad-form__eyebrow">Panel de administración</span>
+  <h1>{{ esEdicion() ? 'Editar propiedad' : 'Cargar propiedad' }}</h1>
+
+  @if (camposFaltantes().length > 0) {
+    <div class="propiedad-form__faltantes">
+      <p>Faltan completar estos campos obligatorios:</p>
+      <ul>
+        @for (campo of camposFaltantes(); track campo) {
+          <li>{{ campo }}</li>
+        }
+      </ul>
+    </div>
+  }
+
+  <form [formGroup]="form" (ngSubmit)="guardar()">
+    <label class="campo campo--tipo">
+      Tipo de propiedad *
+      <select
+        [value]="tipoSeleccionado() ?? ''"
+        (change)="seleccionarTipo($any($event.target).value)"
+        [disabled]="esEdicion()"
+      >
+        <option value="" disabled>Elegir...</option>
+        @for (tipo of TIPOS_PROPIEDAD; track tipo) {
+          <option [value]="tipo">{{ TIPO_LABELS[tipo] }}</option>
+        }
+      </select>
+    </label>
+
+    <div class="propiedad-form__grid">
+      <div class="propiedad-form__columna">
+        <h2>Datos básicos</h2>
+        @for (campo of CAMPOS_COMUNES; track campo.key) {
+          <label class="campo">
+            {{ campo.label }}{{ campo.requerido ? ' *' : '' }}
+            @switch (campo.type) {
+              @case ('textarea') {
+                <textarea [formControlName]="campo.key" rows="4"></textarea>
+              }
+              @case ('select') {
+                <select [formControlName]="campo.key">
+                  <option value="">Sin especificar</option>
+                  @for (opcion of campo.opciones; track opcion) {
+                    <option [value]="opcion">{{ etiquetaOpcion(opcion) }}</option>
+                  }
+                </select>
+              }
+              @case ('checkbox') {
+                <input type="checkbox" [formControlName]="campo.key" />
+              }
+              @case ('number') {
+                <input type="number" [formControlName]="campo.key" />
+              }
+              @default {
+                <input type="text" [formControlName]="campo.key" />
+              }
+            }
+            @if (campoInvalido(campo.key)) {
+              <span class="propiedad-form__campo-error">Este campo es obligatorio.</span>
+            }
+          </label>
+        }
+      </div>
+
+      <div class="propiedad-form__columna">
+        @if (tipoSeleccionado()) {
+          <h2>Datos de {{ TIPO_LABELS[tipoSeleccionado()!] }}</h2>
+          @for (campo of camposEspecificos(); track campo.key) {
+            <label class="campo">
+              {{ campo.label }}{{ campo.requerido ? ' *' : '' }}
+              @switch (campo.type) {
+                @case ('textarea') {
+                  <textarea [formControlName]="campo.key" rows="4"></textarea>
+                }
+                @case ('select') {
+                  <select [formControlName]="campo.key">
+                    <option value="">Sin especificar</option>
+                    @for (opcion of campo.opciones; track opcion) {
+                      <option [value]="opcion">{{ etiquetaOpcion(opcion) }}</option>
+                    }
+                  </select>
+                }
+                @case ('checkbox') {
+                  <input type="checkbox" [formControlName]="campo.key" />
+                }
+                @case ('number') {
+                  <input type="number" [formControlName]="campo.key" />
+                }
+                @default {
+                  <input type="text" [formControlName]="campo.key" />
+                }
+              }
+              @if (campoInvalido(campo.key)) {
+                <span class="propiedad-form__campo-error">Este campo es obligatorio.</span>
+              }
+            </label>
+          }
+        }
+      </div>
+    </div>
+
+    <div class="propiedad-form__seccion-fotos">
+      <h2>Fotos</h2>
+
+      @if (imagenes().length > 0) {
+        <p class="propiedad-form__nota">
+          Arrastrá las fotos para ordenarlas — la primera (a la izquierda) queda como portada.
+        </p>
+
+        <div
+          class="propiedad-form__fotos"
+          cdkDropList
+          cdkDropListOrientation="horizontal"
+          (cdkDropListDropped)="reordenarImagenes($event)"
+        >
+          @for (imagen of imagenes(); track imagen.url; let i = $index) {
+            <div class="propiedad-form__foto" cdkDrag>
+              <img [src]="imagenUrl(imagen.url)" alt="" />
+              @if (i === 0) {
+                <span class="propiedad-form__foto-portada">Portada</span>
+              }
+              <button type="button" (click)="quitarImagen(i)" aria-label="Quitar foto">✕</button>
+            </div>
+          }
+        </div>
+      }
+
+      <label class="campo">
+        Agregar fotos (la primera que subas queda como portada)
+        <input type="file" accept="image/png,image/jpeg,image/webp" multiple (change)="subirImagenes($event)" />
+      </label>
+
+      @if (subiendoImagen()) {
+        <p class="propiedad-form__nota">Subiendo...</p>
+      }
+
+      @if (errorImagen()) {
+        <p class="propiedad-form__error">{{ errorImagen() }}</p>
+      }
+    </div>
+
+    @if (error()) {
+      <p class="propiedad-form__error">No se pudo guardar la propiedad. Revisá los datos e intentá de nuevo.</p>
+    }
+
+    <button type="submit" [disabled]="guardando()">
+      {{ guardando() ? 'Guardando...' : 'Guardar propiedad' }}
+    </button>
+  </form>
+</section>

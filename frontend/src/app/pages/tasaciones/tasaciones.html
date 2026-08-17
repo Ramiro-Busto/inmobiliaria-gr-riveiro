@@ -1,0 +1,80 @@
+<section class="hero">
+  <div class="hero__inner">
+    <div class="hero__texto">
+      <span class="hero__eyebrow">Tasaciones</span>
+      <h1>¿Querés vender o alquilar tu propiedad?</h1>
+      <p>
+        Te asesoramos sobre el valor real de tu propiedad con información actualizada del mercado en
+        Quilmes y Zona Sur, sin costo y sin compromiso.
+      </p>
+    </div>
+
+    <div class="hero__card">
+      @if (enviado()) {
+        <div class="hero__gracias">
+          <app-icon name="star" [size]="32" />
+          <h2>¡Gracias!</h2>
+          <p>Recibimos tu solicitud, en breve te vamos a estar contactando.</p>
+        </div>
+      } @else {
+        <h2>Queres vender o alquilar tu propiedad?</h2>
+        <p>En breve te estaremos llamando para coordinar una reunión.</p>
+
+        <form [formGroup]="form" (ngSubmit)="enviar()">
+          <label [class.is-invalido]="intentoEnviar() && form.controls.nombre.invalid">
+            Nombre
+            <input type="text" formControlName="nombre" />
+            <span class="hero__campo-error" [class.is-visible]="intentoEnviar() && form.controls.nombre.invalid">
+              Este campo es requerido.
+            </span>
+          </label>
+
+          <label [class.is-invalido]="intentoEnviar() && form.controls.apellido.invalid">
+            Apellido
+            <input type="text" formControlName="apellido" />
+            <span class="hero__campo-error" [class.is-visible]="intentoEnviar() && form.controls.apellido.invalid">
+              Este campo es requerido.
+            </span>
+          </label>
+
+          <label [class.is-invalido]="intentoEnviar() && form.controls.telefono.invalid">
+            Teléfono
+            <input type="tel" formControlName="telefono" />
+            <span class="hero__campo-error" [class.is-visible]="intentoEnviar() && form.controls.telefono.invalid">
+              Este campo es requerido.
+            </span>
+          </label>
+
+          <label [class.is-invalido]="intentoEnviar() && form.controls.email.invalid">
+            Email
+            <input type="email" formControlName="email" />
+            <span class="hero__campo-error" [class.is-visible]="intentoEnviar() && form.controls.email.invalid">
+              {{ form.controls.email.errors?.['required'] ? 'Este campo es requerido.' : 'Ingresá un email válido.' }}
+            </span>
+          </label>
+
+          <label [class.is-invalido]="intentoEnviar() && form.controls.tipoPropiedad.invalid">
+            Tipo de propiedad
+            <select formControlName="tipoPropiedad">
+              <option value="" disabled>Seleccioná una opción</option>
+              @for (tipo of tiposPropiedad; track tipo) {
+                <option [value]="tipo">{{ TIPO_LABELS[tipo] }}</option>
+              }
+            </select>
+            <span class="hero__campo-error" [class.is-visible]="intentoEnviar() && form.controls.tipoPropiedad.invalid">
+              Este campo es requerido.
+            </span>
+          </label>
+
+          @if (error()) {
+            <p class="hero__error">No se pudo enviar la solicitud. Probá de nuevo en un momento.</p>
+          }
+
+          <button type="submit" [disabled]="enviando()">
+            {{ enviando() ? 'Enviando...' : 'Enviar' }}
+          </button>
+        </form>
+      }
+    </div>
+  </div>
+</section>

@@ -1,0 +1,82 @@
+<section class="hero">
+  <div class="hero__contenido">
+    <span class="hero__eyebrow">GR Riveiro Negocios Inmobiliarios</span>
+    <h1>Encontrá tu próximo hogar</h1>
+    <p>Compra, venta y alquiler de propiedades en Quilmes y Zona Sur.</p>
+  </div>
+
+  <div class="hero__buscador">
+    <app-filtros-propiedades (buscar)="buscar($event)" />
+  </div>
+</section>
+
+<section class="destacadas">
+  <div class="destacadas__inner">
+    <span class="destacadas__eyebrow">Selección</span>
+    <h2>Propiedades disponibles</h2>
+
+    @if (propiedades().length > 0) {
+      <div class="grid">
+        @for (propiedad of propiedades(); track propiedad.id) {
+          <app-propiedad-card [propiedad]="propiedad" />
+        }
+      </div>
+
+      <div class="destacadas__ver-mas">
+        @if (cargandoMas()) {
+          <div class="destacadas__spinner" aria-label="Cargando"></div>
+        } @else if (hayMas()) {
+          <button type="button" (click)="verMas()">Ver más propiedades</button>
+        }
+      </div>
+    } @else {
+      <p class="destacadas__vacio">Todavía no hay propiedades cargadas.</p>
+    }
+  </div>
+</section>
+
+<section class="servicios">
+  <div class="servicios__inner">
+    <span class="servicios__eyebrow">Servicios</span>
+    <h2>Cómo podemos ayudarte</h2>
+
+    <div class="servicios__grid">
+      <div class="servicios__item">
+        <app-icon name="home" [size]="26" />
+        <h3>Venta de propiedades</h3>
+        <p>Te acompañamos en todo el proceso: tasación, publicación, visitas y cierre de la operación.</p>
+      </div>
+
+      <div class="servicios__item">
+        <app-icon name="key" [size]="26" />
+        <h3>Alquileres</h3>
+        <p>Gestionamos el alquiler de tu propiedad con contratos claros y acompañamiento constante.</p>
+      </div>
+
+      <div class="servicios__item">
+        <app-icon name="chart" [size]="26" />
+        <h3>Tasaciones</h3>
+        <p>Valuamos tu propiedad con datos reales del mercado actual, para que decidas con información sólida.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="quienes-somos">
+  <div class="quienes-somos__inner">
+    <div class="quienes-somos__foto">
+      <img src="/oficina-2.jpg" alt="Oficina de GR Riveiro Negocios Inmobiliarios" />
+    </div>
+
+    <div class="quienes-somos__contenido">
+      <span class="quienes-somos__eyebrow">Quiénes somos</span>
+      <h2>Una inmobiliaria de confianza en Quilmes</h2>
+      <p>
+        GR Riveiro Negocios Inmobiliarios está dedicada a la gestión de venta y alquiler de propiedades, con
+        el acompañamiento profesional en todo momento. Nuestra misión es brindarle al cliente la mayor
+        satisfacción, acompañándolo en todo el proceso de venta y post venta.
+      </p>
+      <a routerLink="/la-empresa" class="quienes-somos__link">Conocé más sobre nosotros →</a>
+    </div>
+  </div>
+</section>

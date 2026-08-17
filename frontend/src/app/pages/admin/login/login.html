@@ -1,0 +1,23 @@
+<section class="login">
+  <h1>Ingresar</h1>
+
+  <form [formGroup]="form" (ngSubmit)="ingresar()">
+    <label>
+      Email
+      <input type="email" formControlName="email" />
+    </label>
+
+    <label>
+      Contraseña
+      <input type="password" formControlName="password" />
+    </label>
+
+    @if (error()) {
+      <p class="login__error">Email o contraseña incorrectos.</p>
+    }
+
+    <button type="submit" [disabled]="enviando()">
+      {{ enviando() ? 'Ingresando...' : 'Ingresar' }}
+    </button>
+  </form>
+</section>

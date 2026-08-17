@@ -1,0 +1,27 @@
+# --- Backend (.NET) ---
+backend/**/bin/
+backend/**/obj/
+backend/**/.vs/
+*.user
+
+# Base de datos local de desarrollo (SQLite) y sus archivos temporales.
+backend/**/*.db
+backend/**/*.db-shm
+backend/**/*.db-wal
+
+# Fotos subidas desde el panel de admin: son contenido, no código.
+backend/**/wwwroot/uploads/
+
+# --- Frontend (Angular) ---
+frontend/node_modules/
+frontend/dist/
+frontend/.angular/
+npm-debug.log*
+
+# --- Editor / SO ---
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Configuración local de Claude Code (permisos propios de esta máquina).
+.claude/settings.local.json

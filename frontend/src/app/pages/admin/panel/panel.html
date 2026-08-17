@@ -1,0 +1,85 @@
+<section class="panel">
+  <header class="panel__header">
+    <h1>Panel de Administración</h1>
+    <button type="button" (click)="cerrarSesion()">Cerrar sesión</button>
+  </header>
+
+  <section class="panel__seccion panel__seccion--card">
+    <div class="panel__seccion-header">
+      <h2>Propiedades ({{ propiedades().length }})</h2>
+      <a routerLink="/admin/panel/propiedades/nueva" class="panel__boton panel__boton--primario">+ Cargar propiedad</a>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th></th>
+          <th>Tipo</th>
+          <th>Título</th>
+          <th>Estado</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (p of propiedades(); track p.id) {
+          <tr>
+            <td>
+              @if (portada(p); as foto) {
+                <img class="panel__miniatura" [src]="foto" [alt]="p.titulo" />
+              } @else {
+                <div class="panel__miniatura panel__miniatura--vacia" aria-hidden="true"></div>
+              }
+            </td>
+            <td>{{ TIPO_LABELS[p.tipo] }}</td>
+            <td>{{ p.titulo }}</td>
+            <td>{{ p.estado }}</td>
+            <td class="panel__celda-acciones">
+              <div class="panel__acciones">
+                <a [routerLink]="['/admin/panel/propiedades', p.id, 'editar']" class="panel__boton panel__boton--editar">Editar</a>
+                <button type="button" class="panel__boton panel__boton--eliminar" (click)="eliminarPropiedad(p.id)">Eliminar</button>
+              </div>
+            </td>
+          </tr>
+        } @empty {
+          <tr><td colspan="5">No hay propiedades cargadas.</td></tr>
+        }
+      </tbody>
+    </table>
+  </section>
+
+  <section class="panel__seccion panel__seccion--card">
+    <h2>Consultas ({{ consultas().length }})</h2>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Tipo</th>
+          <th>Nombre</th>
+          <th>Contacto</th>
+          <th>Mensaje</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (c of consultas(); track c.id) {
+          <tr [class.panel__leida]="c.leida">
+            <td>{{ c.tipo }}</td>
+            <td>{{ c.nombre }} {{ c.apellido }}</td>
+            <td>{{ c.email }} @if (c.telefono) { <br />{{ c.telefono }} }</td>
+            <td>
+              @if (c.tipoPropiedad) { <span>Tipo de propiedad: {{ TIPO_LABELS[c.tipoPropiedad] }}</span><br /> }
+              {{ c.mensaje }}
+            </td>
+            <td>
+              @if (!c.leida) {
+                <button type="button" (click)="marcarConsultaLeida(c.id)">Marcar leída</button>
+              }
+            </td>
+          </tr>
+        } @empty {
+          <tr><td colspan="5">No hay consultas todavía.</td></tr>
+        }
+      </tbody>
+    </table>
+  </section>
+</section>

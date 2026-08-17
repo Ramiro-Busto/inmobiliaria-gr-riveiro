@@ -1,0 +1,151 @@
+.footer {
+  background: var(--color-dark);
+  color: var(--color-dark-text);
+
+  &__cta {
+    text-align: center;
+    padding: 3.5rem 1.5rem 2.5rem;
+
+    h2 {
+      font-family: var(--font-body);
+      font-weight: 800;
+      color: var(--color-dark-text);
+      margin-bottom: 0.4rem;
+    }
+
+    p {
+      color: var(--color-dark-text-muted);
+      margin: 0 0 1.4rem;
+    }
+  }
+
+  &__whatsapp {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--color-accent);
+    color: var(--color-accent-contrast);
+    padding: 0.75rem 1.6rem;
+    border-radius: 999px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: background 0.15s ease;
+
+    &:hover {
+      background: var(--color-accent-dark);
+    }
+  }
+
+  &__columnas {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
+    display: grid;
+    grid-template-columns: 1.2fr 1fr 1.4fr;
+    gap: 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+
+    @media (max-width: 720px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  &__columna {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    h3 {
+      font-family: var(--font-body);
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--color-accent);
+      margin-bottom: 0.4rem;
+    }
+
+    a {
+      color: var(--color-dark-text-muted);
+      text-decoration: none;
+      font-size: 0.92rem;
+
+      &:hover {
+        color: var(--color-dark-text);
+      }
+    }
+
+    span {
+      color: var(--color-dark-text-muted);
+      font-size: 0.88rem;
+    }
+  }
+
+  &__logo {
+    align-self: flex-start;
+    height: 64px;
+    width: auto;
+    // El logo original tiene el "GR" en negro; sobre el footer oscuro no se vería,
+    // así que lo mostramos en blanco monocromático.
+    filter: brightness(0) invert(1);
+    margin-bottom: 0.6rem;
+  }
+
+  &__redes {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-top: 0.6rem;
+
+    a {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+
+      app-icon {
+        color: var(--color-accent);
+        flex-shrink: 0;
+      }
+    }
+  }
+
+  &__item {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+
+    app-icon {
+      color: var(--color-accent);
+      flex-shrink: 0;
+    }
+  }
+
+  &__legal {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.3rem 1.2rem;
+    text-align: center;
+    padding: 1rem;
+    font-size: 0.78rem;
+    color: var(--color-dark-text-muted);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  &__creditos {
+    a {
+      color: var(--color-dark-text-muted);
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.15s ease;
+
+      &:hover {
+        color: var(--color-accent);
+      }
+    }
+  }
+
+  &__corazon {
+    color: var(--color-accent);
+  }
+}

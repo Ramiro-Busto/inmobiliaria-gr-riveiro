@@ -1,0 +1,249 @@
+@if (cargando()) {
+  <section class="detalle">
+    <p class="detalle__mensaje">Cargando...</p>
+  </section>
+} @else if (error() || !propiedad()) {
+  <section class="detalle">
+    <p class="detalle__mensaje">No se encontró la propiedad.</p>
+  </section>
+} @else {
+  @let p = propiedad()!;
+
+  <section class="detalle">
+    <a routerLink="/propiedades" class="detalle__volver">‹ Volver al listado</a>
+
+    <div class="detalle__badges">
+      @if (p.operacion) {
+        <span class="detalle__badge detalle__badge--operacion">{{ etiquetaOpcion(p.operacion) }}</span>
+      }
+      <span class="detalle__badge detalle__badge--tipo">{{ TIPO_LABELS[p.tipo] }}</span>
+    </div>
+
+    <div class="detalle__encabezado">
+      <div>
+        <h1>{{ p.titulo }}</h1>
+        <p class="detalle__ubicacion">
+          <app-icon name="mapPin" [size]="16" />
+          {{ p.barrioCiudad }}, {{ p.partidoLocalidad }}
+        </p>
+      </div>
+
+      @if (tieneMapa()) {
+        <a href="#ubicacion" class="detalle__boton-mapa">
+          <app-icon name="mapPin" [size]="16" />
+          Ver mapa
+        </a>
+      }
+    </div>
+
+    <div class="detalle__principal">
+      <div class="detalle__columna-izquierda">
+      <div class="detalle__galeria">
+        @if (p.imagenes.length > 0) {
+          <div class="detalle__foto-principal">
+            <img [src]="imagenUrl(p.imagenes[indiceFoto()].url)" [alt]="p.titulo" />
+
+            @if (p.imagenes.length > 1) {
+              <button type="button" class="detalle__flecha detalle__flecha--izq" (click)="fotoAnterior()" aria-label="Foto anterior">‹</button>
+              <button type="button" class="detalle__flecha detalle__flecha--der" (click)="fotoSiguiente()" aria-label="Foto siguiente">›</button>
+              <span class="detalle__contador-fotos">{{ indiceFoto() + 1 }} / {{ p.imagenes.length }}</span>
+            }
+          </div>
+
+          @if (p.imagenes.length > 1) {
+            <div class="detalle__miniaturas">
+              @for (imagen of p.imagenes; track imagen.id; let i = $index) {
+                <button
+                  type="button"
+                  class="detalle__miniatura"
+                  [class.is-activa]="i === indiceFoto()"
+                  (click)="irAFoto(i)"
+                >
+                  <img [src]="imagenUrl(imagen.url)" [alt]="p.titulo" />
+                </button>
+              }
+            </div>
+          }
+        } @else {
+          <div class="detalle__sin-imagen">Sin fotos todavía</div>
+        }
+
+        @if (!p.noPublicarPrecio && p.monto) {
+          <p class="detalle__precio">
+            {{ etiquetaMoneda(p.moneda) }} {{ p.monto | number }}
+          </p>
+          @if (expensas()) {
+            <p class="detalle__expensas">+ ARS {{ expensas() | number }} expensas</p>
+          }
+        }
+
+        @if (tarjetas().length > 0) {
+          <div class="detalle__tarjetas">
+            @for (tarjeta of tarjetas(); track tarjeta.etiqueta) {
+              <div class="detalle__tarjeta">
+                <app-icon [name]="tarjeta.icono" [size]="22" />
+                <span class="detalle__tarjeta-valor">{{ tarjeta.valor }}</span>
+                <span class="detalle__tarjeta-etiqueta">{{ tarjeta.etiqueta }}</span>
+              </div>
+            }
+          </div>
+        }
+      </div>
+
+      <section class="detalle__seccion">
+        <h2>Descripción</h2>
+        <p class="detalle__descripcion">{{ p.descripcion }}</p>
+      </section>
+
+      <section class="detalle__seccion" id="ubicacion">
+        <h2>Ubicación</h2>
+        <p class="detalle__direccion">
+          <app-icon name="mapPin" [size]="16" />
+          {{ p.calle }} {{ p['nroCalle'] }}, {{ p.barrioCiudad }}, {{ p.partidoLocalidad }}
+        </p>
+
+        @if (tieneMapa()) {
+          <div class="detalle__mapa">
+            <iframe [src]="mapaSrc()" title="Ubicación en el mapa" loading="lazy"></iframe>
+          </div>
+          <a [href]="mapaLinkGrande()" target="_blank" rel="noopener" class="detalle__mapa-link">
+            Ver mapa más grande en OpenStreetMap ↗
+          </a>
+        } @else {
+          <p class="detalle__mapa-vacio">Todavía no se cargó la ubicación exacta de esta propiedad en el mapa.</p>
+        }
+      </section>
+      </div>
+
+      <aside class="detalle__contacto">
+        <a [href]="linkWhatsapp()" target="_blank" rel="noopener" class="detalle__whatsapp">
+          <app-icon name="whatsapp" [size]="20" />
+          Consultar por WhatsApp
+        </a>
+
+        <div class="detalle__form">
+          @if (consultaEnviada()) {
+            <p class="detalle__form-gracias">¡Gracias! Recibimos tu consulta, te vamos a contactar a la brevedad.</p>
+          } @else {
+            <h3>Solicitá más información</h3>
+            <form [formGroup]="formConsulta" (ngSubmit)="enviarConsulta()">
+              <input type="text" placeholder="Nombre completo" formControlName="nombre" />
+              <input type="email" placeholder="Email" formControlName="email" />
+              <input type="tel" placeholder="Teléfono" formControlName="telefono" />
+              <textarea rows="4" formControlName="mensaje"></textarea>
+
+              @if (errorConsulta()) {
+                <p class="detalle__form-error">No se pudo enviar. Probá de nuevo en un momento.</p>
+              }
+
+              <button type="submit" [disabled]="enviandoConsulta()">
+                {{ enviandoConsulta() ? 'Enviando...' : 'Enviar consulta' }}
+              </button>
+            </form>
+          }
+        </div>
+      </aside>
+    </div>
+
+    <section class="detalle__acordeones">
+      <div class="acordeon">
+        <button type="button" class="acordeon__titulo" (click)="alternarSeccion('basicos')">
+          Datos básicos
+          <span class="acordeon__flecha" [class.is-abierta]="estaAbierta('basicos')">⌄</span>
+        </button>
+        @if (estaAbierta('basicos')) {
+          <div class="acordeon__contenido">
+            @if (datosBasicos().length > 0) {
+              <dl class="acordeon__lista">
+                @for (dato of datosBasicos(); track dato.label) {
+                  <div class="acordeon__item">
+                    <dt>{{ dato.label }}</dt>
+                    <dd>{{ dato.valor }}</dd>
+                  </div>
+                }
+              </dl>
+            } @else {
+              <p class="acordeon__vacio">No hay datos cargados.</p>
+            }
+          </div>
+        }
+      </div>
+
+      <div class="acordeon">
+        <button type="button" class="acordeon__titulo" (click)="alternarSeccion('caracteristicas')">
+          Características de la propiedad
+          <span class="acordeon__flecha" [class.is-abierta]="estaAbierta('caracteristicas')">⌄</span>
+        </button>
+        @if (estaAbierta('caracteristicas')) {
+          <div class="acordeon__contenido">
+            @if (caracteristicas().length > 0) {
+              <dl class="acordeon__lista">
+                @for (dato of caracteristicas(); track dato.label) {
+                  <div class="acordeon__item">
+                    <dt>{{ dato.label }}</dt>
+                    <dd>{{ dato.valor }}</dd>
+                  </div>
+                }
+              </dl>
+            } @else {
+              <p class="acordeon__vacio">No hay datos cargados.</p>
+            }
+          </div>
+        }
+      </div>
+
+      <div class="acordeon">
+        <button type="button" class="acordeon__titulo" (click)="alternarSeccion('servicios')">
+          Servicios
+          <span class="acordeon__flecha" [class.is-abierta]="estaAbierta('servicios')">⌄</span>
+        </button>
+        @if (estaAbierta('servicios')) {
+          <div class="acordeon__contenido">
+            @if (servicios().length > 0) {
+              <ul class="acordeon__chips">
+                @for (item of servicios(); track item) {
+                  <li>{{ item }}</li>
+                }
+              </ul>
+            } @else {
+              <p class="acordeon__vacio">No hay servicios cargados.</p>
+            }
+          </div>
+        }
+      </div>
+
+      <div class="acordeon">
+        <button type="button" class="acordeon__titulo" (click)="alternarSeccion('amenities')">
+          Amenities
+          <span class="acordeon__flecha" [class.is-abierta]="estaAbierta('amenities')">⌄</span>
+        </button>
+        @if (estaAbierta('amenities')) {
+          <div class="acordeon__contenido">
+            @if (amenities().length > 0) {
+              <ul class="acordeon__chips">
+                @for (item of amenities(); track item) {
+                  <li>{{ item }}</li>
+                }
+              </ul>
+            } @else {
+              <p class="acordeon__vacio">No hay amenities cargadas.</p>
+            }
+          </div>
+        }
+      </div>
+    </section>
+  </section>
+
+  @if (similares().length > 0) {
+    <section class="similares">
+      <div class="similares__inner">
+        <h2>Propiedades similares</h2>
+        <div class="similares__grid">
+          @for (similar of similares(); track similar.id) {
+            <app-propiedad-card [propiedad]="similar" />
+          }
+        </div>
+      </div>
+    </section>
+  }
+}

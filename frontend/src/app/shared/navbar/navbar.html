@@ -1,0 +1,22 @@
+<nav class="navbar">
+  <a routerLink="/" class="navbar__brand">
+    <img src="/logo-gr-riveiro.png" alt="GR Riveiro Negocios Inmobiliarios" />
+  </a>
+
+  <div class="navbar__links">
+    <a routerLink="/" routerLinkActive="is-active" [routerLinkActiveOptions]="{ exact: true }">Inicio</a>
+    <a routerLink="/propiedades" routerLinkActive="is-active">Propiedades</a>
+    <a routerLink="/la-empresa" routerLinkActive="is-active">La Empresa</a>
+    <a routerLink="/tasaciones" routerLinkActive="is-active">Tasaciones</a>
+    <a routerLink="/contacto" routerLinkActive="is-active">Contacto</a>
+  </div>
+
+  <div class="navbar__redes">
+    <a [href]="instagramUrl" target="_blank" rel="noopener" aria-label="Instagram">
+      <app-icon name="instagram" [size]="20" />
+    </a>
+    <a [href]="facebookUrl" target="_blank" rel="noopener" aria-label="Facebook">
+      <app-icon name="facebook" [size]="20" />
+    </a>
+  </div>
+</nav>

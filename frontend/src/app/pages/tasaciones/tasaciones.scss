@@ -1,0 +1,212 @@
+@keyframes aparecer {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hero {
+  position: relative;
+  padding: 5rem 1.5rem;
+  background: url('/hero.jpg') center 40% / cover no-repeat;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(100deg, rgba(22, 20, 15, 0.8) 20%, rgba(22, 20, 15, 0.4) 100%);
+  }
+
+  &__inner {
+    position: relative;
+    max-width: var(--max-width);
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 4.5rem;
+  }
+
+  &__texto {
+    max-width: 460px;
+    animation: aparecer 0.7s ease both;
+  }
+
+  &__eyebrow {
+    display: inline-block;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--color-accent);
+    margin-bottom: 1rem;
+  }
+
+  &__texto h1 {
+    font-family: var(--font-body);
+    font-weight: 800;
+    color: var(--color-dark-text);
+    font-size: clamp(1.9rem, 3.4vw, 2.5rem);
+    margin-bottom: 0.8rem;
+  }
+
+  &__texto p {
+    color: var(--color-dark-text-muted);
+    font-size: 1.02rem;
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  &__card {
+    position: relative;
+    width: 340px;
+    max-width: 100%;
+    background: var(--color-bg);
+    border-radius: var(--radius);
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.28);
+    padding: 1.6rem;
+    animation: aparecer 0.7s ease 0.12s both;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+
+    &:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 26px 55px rgba(0, 0, 0, 0.34);
+    }
+
+    h2 {
+      font-family: var(--font-body);
+      font-weight: 800;
+      font-size: 1.15rem;
+      margin: 0 0 0.35rem;
+    }
+
+    > p {
+      color: var(--color-text-muted);
+      font-size: 0.85rem;
+      margin: 0 0 1.1rem;
+    }
+  }
+
+  &__gracias {
+    text-align: center;
+    padding: 0.5rem 0 0.8rem;
+
+    app-icon {
+      color: var(--color-accent);
+      margin-bottom: 0.8rem;
+    }
+
+    h2 {
+      margin-bottom: 0.5rem;
+    }
+
+    p {
+      color: var(--color-text-muted);
+      margin: 0;
+    }
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+  }
+
+  label {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    color: var(--color-text-muted);
+  }
+
+  input,
+  textarea,
+  select {
+    padding: 0.55rem 0.65rem;
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    font: inherit;
+    font-size: 0.88rem;
+    color: var(--color-text);
+    background: var(--color-bg-alt);
+    transition: border-color 0.15s ease;
+
+    &:focus {
+      outline: none;
+      border-color: var(--color-accent);
+    }
+  }
+
+  select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236b6459' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.7rem center;
+    background-size: 16px;
+    padding-right: 2.2rem;
+  }
+
+  label.is-invalido {
+    color: #c0392b;
+
+    input,
+    select {
+      border-color: #c0392b;
+      // background-color (no "background") para no pisar la imagen de la flecha del select.
+      background-color: rgba(192, 57, 43, 0.05);
+    }
+  }
+
+  &__campo-error {
+    // Siempre ocupa su lugar (visibility, no display) para que el formulario no
+    // "salte" de alto cuando aparece o desaparece el mensaje de error.
+    display: block;
+    min-height: 1em;
+    visibility: hidden;
+    text-transform: none;
+    letter-spacing: normal;
+    font-size: 0.7rem;
+    color: #c0392b;
+
+    &.is-visible {
+      visibility: visible;
+    }
+  }
+
+  button {
+    padding: 0.7rem;
+    border: none;
+    border-radius: 8px;
+    background: var(--color-accent);
+    color: var(--color-accent-contrast);
+    font-weight: 700;
+    font-size: 0.92rem;
+    cursor: pointer;
+    transition: background 0.15s ease, transform 0.15s ease;
+
+    &:hover:not(:disabled) {
+      background: var(--color-accent-dark);
+      transform: translateY(-2px);
+    }
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: default;
+    }
+  }
+
+  &__error {
+    margin: 0;
+    color: #c0392b;
+    font-size: 0.85rem;
+  }
+}

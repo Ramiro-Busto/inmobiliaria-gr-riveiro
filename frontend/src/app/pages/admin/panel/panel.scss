@@ -1,0 +1,181 @@
+:host {
+  display: block;
+  background: var(--color-bg-alt);
+}
+
+.panel {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+
+  h1,
+  h2 {
+    font-family: var(--font-body);
+    font-weight: 800;
+  }
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--color-bg);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 1.3rem 1.6rem;
+
+    h1 {
+      margin: 0;
+    }
+
+    button {
+      border: 1px solid var(--color-dark);
+      background: var(--color-dark);
+      color: var(--color-dark-text);
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      font: inherit;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s ease;
+
+      &:hover {
+        background: #000;
+      }
+    }
+  }
+
+  &__seccion {
+    margin-top: 2.5rem;
+  }
+
+  &__seccion--card {
+    background: var(--color-bg);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 1.6rem;
+
+    // Línea debajo del título (o de la fila título + botón, en Propiedades).
+    > h2,
+    > .panel__seccion-header {
+      padding-bottom: 0.9rem;
+      margin-bottom: 1.2rem;
+      border-bottom: 2px solid var(--color-accent);
+    }
+  }
+
+  &__seccion-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__celda-acciones {
+    padding-left: 1.6rem;
+  }
+
+  &__acciones {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+  }
+
+  // Botones cuadrados (sin la píldora que usa el resto del sitio) para las acciones
+  // del panel: Cargar propiedad / Editar / Eliminar.
+  &__boton {
+    display: inline-block;
+    text-decoration: none;
+    font: inherit;
+    font-size: 0.82rem;
+    font-weight: 600;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+
+    &--primario {
+      background: var(--color-accent);
+      color: var(--color-accent-contrast);
+      border-color: var(--color-accent);
+
+      &:hover {
+        background: var(--color-accent-dark);
+        border-color: var(--color-accent-dark);
+      }
+    }
+
+    &--editar {
+      background: var(--color-bg);
+      color: var(--color-dark);
+      border-color: var(--color-border);
+
+      &:hover {
+        background: var(--color-bg-alt);
+        border-color: var(--color-dark);
+      }
+    }
+
+    &--eliminar {
+      background: var(--color-dark);
+      color: var(--color-dark-text);
+      border-color: var(--color-dark);
+
+      &:hover {
+        background: #000;
+      }
+    }
+  }
+
+  &__nota {
+    color: var(--color-text-muted);
+    font-size: 0.9rem;
+  }
+
+  &__leida {
+    opacity: 0.5;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+  }
+
+  th,
+  td {
+    text-align: left;
+    vertical-align: middle;
+    padding: 0.6rem 0.5rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  th {
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    color: var(--color-text-muted);
+  }
+
+  &__miniatura {
+    display: block;
+    width: 48px;
+    height: 48px;
+    border-radius: 6px;
+    object-fit: cover;
+    background: var(--color-bg-alt);
+
+    &--vacia {
+      border: 1px solid var(--color-border);
+    }
+  }
+
+  td button {
+    border: none;
+    background: var(--color-dark);
+    color: var(--color-dark-text);
+    padding: 0.4rem 0.8rem;
+    border-radius: 999px;
+    cursor: pointer;
+    font-size: 0.8rem;
+  }
+}
