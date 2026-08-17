@@ -8,7 +8,7 @@ namespace Inmobiliaria.Api.Controllers;
 // desde el panel al cargar/editar una propiedad.
 [ApiController]
 [Route("api/imagenes")]
-public class ImagenesController(IWebHostEnvironment env) : ControllerBase
+public class ImagenesController(IWebHostEnvironment env, IConfiguration config) : ControllerBase
 {
     private static readonly string[] ExtensionesPermitidas = [".jpg", ".jpeg", ".png", ".webp"];
     private const long TamanioMaximoBytes = 8 * 1024 * 1024; // 8 MB
@@ -33,7 +33,12 @@ public class ImagenesController(IWebHostEnvironment env) : ControllerBase
             return BadRequest("Formato no permitido. Usá JPG, PNG o WEBP.");
         }
 
-        var carpeta = Path.Combine(env.WebRootPath, "uploads", "propiedades");
+        // Igual que en Program.cs: si hay un disco persistente configurado (producción), las
+        // fotos van ahí; si no (desarrollo), se quedan en wwwroot como siempre.
+        var dataDir = config["Storage:DataDir"];
+        var carpeta = dataDir is null
+            ? Path.Combine(env.WebRootPath, "uploads", "propiedades")
+            : Path.Combine(dataDir, "uploads", "propiedades");
         Directory.CreateDirectory(carpeta);
 
         // Nombre generado (no el original) para evitar colisiones y problemas de seguridad.

@@ -4,7 +4,9 @@ using Inmobiliaria.Api.Data;
 using Inmobiliaria.Api.Models;
 using Inmobiliaria.Api.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -21,8 +23,20 @@ builder.Services.AddControllers()
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
+// En el hosting de producción (Render) la base y las fotos viven en un disco persistente
+// aparte, configurado con "Storage:DataDir". En desarrollo esto no está seteado, así que
+// todo sigue funcionando exactamente como antes (base en la carpeta del proyecto, fotos en
+// wwwroot/uploads).
+var dataDir = builder.Configuration["Storage:DataDir"];
+if (dataDir is not null) Directory.CreateDirectory(dataDir);
+
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("Default")));
+{
+    var connectionString = dataDir is null
+        ? builder.Configuration.GetConnectionString("Default")
+        : $"Data Source={Path.Combine(dataDir, "inmobiliaria.db")}";
+    options.UseSqlite(connectionString);
+});
 
 builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddScoped<JwtService>();
@@ -48,13 +62,18 @@ builder.Services
 
 builder.Services.AddAuthorization();
 
-// Permite que el frontend de Angular (en desarrollo) llame a esta API.
-const string AngularDevCors = "AngularDev";
+// Qué orígenes puede llamar a esta API. En producción se configura con la variable
+// "Cors:AllowedOrigins" (separados por coma: la URL de Netlify, el dominio propio, etc.).
+const string FrontendCors = "Frontend";
+var allowedOrigins = builder.Configuration["Cors:AllowedOrigins"]
+    ?.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+    ?? ["http://localhost:4200"];
+
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy(AngularDevCors, policy =>
+    options.AddPolicy(FrontendCors, policy =>
     {
-        policy.WithOrigins("http://localhost:4200")
+        policy.WithOrigins(allowedOrigins)
             .AllowAnyHeader()
             .AllowAnyMethod();
     });
@@ -68,21 +87,49 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
+// Render (y cualquier hosting con proxy delante) termina el HTTPS antes de llegar a la app;
+// esto le permite a ASP.NET Core enterarse de que el pedido original sí era HTTPS.
+app.UseForwardedHeaders(new ForwardedHeadersOptions
+{
+    ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto,
+});
+
 app.UseHttpsRedirection();
 
 // Sirve los archivos de wwwroot/uploads (las fotos de las propiedades) como URLs públicas.
 app.UseStaticFiles();
 
-app.UseCors(AngularDevCors);
+// En producción, con "Storage:DataDir" configurado, las fotos viven fuera de wwwroot
+// (en el disco persistente), así que necesitan su propio mapeo de archivos estáticos.
+if (dataDir is not null)
+{
+    app.UseStaticFiles(new StaticFileOptions
+    {
+        FileProvider = new PhysicalFileProvider(Path.Combine(dataDir, "uploads")),
+        RequestPath = "/uploads",
+    });
+}
+
+app.UseCors(FrontendCors);
 
 app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
 
+await AplicarMigracionesAsync(app);
 await SeedAdminAsync(app);
 
 app.Run();
+
+// Aplica las migraciones pendientes al arrancar. En un hosting como Render no hay forma
+// cómoda de correr "dotnet ef database update" a mano, así que la base se pone al día sola.
+static async Task AplicarMigracionesAsync(WebApplication app)
+{
+    using var scope = app.Services.CreateScope();
+    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    await db.Database.MigrateAsync();
+}
 
 // Si todavía no existe ningún administrador, crea uno con los datos de appsettings
 // (sección "AdminSeed"). Así arranca la app sin tener que insertar el usuario a mano.

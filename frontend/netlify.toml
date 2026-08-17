@@ -1,0 +1,10 @@
+[build]
+  command = "npm run build"
+  publish = "dist/frontend/browser"
+
+# Angular maneja las rutas en el navegador (Router): sin esto, recargar la página en
+# /propiedades/5 o cualquier ruta que no sea la raíz devolvería un 404 de Netlify.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

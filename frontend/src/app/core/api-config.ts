@@ -1,6 +1,8 @@
-// URL base de la API backend. Cuando se despliegue a producción, cambiar este valor
-// (o pasarlo a un archivo de entorno) por la URL real del servidor.
-export const API_ORIGIN = 'http://localhost:5080';
+import { environment } from '../../environments/environment';
+
+// URL base de la API backend. Sale del archivo de entorno: en desarrollo es localhost,
+// en el build de producción Angular lo reemplaza por environments/environment.prod.ts.
+export const API_ORIGIN = environment.apiOrigin;
 export const API_BASE_URL = `${API_ORIGIN}/api`;
 
 // Las fotos de las propiedades se guardan en el backend y llegan como rutas relativas
