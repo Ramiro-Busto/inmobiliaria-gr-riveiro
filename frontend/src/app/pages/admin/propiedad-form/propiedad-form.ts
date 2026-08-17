@@ -142,6 +142,21 @@ export class PropiedadForm implements OnInit {
     this.imagenes.set(actuales);
   }
 
+  // Un campo numérico vacío llega del formulario como "" (string), no como null, y el
+  // backend no puede convertir eso a número — hay que pasarlo a null antes de mandarlo.
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  private normalizarNumeros(campos: any): any {
+    const camposNumericos = [...CAMPOS_COMUNES, ...this.camposEspecificos()]
+      .filter((campo) => campo.type === 'number')
+      .map((campo) => campo.key);
+
+    const normalizados = { ...campos };
+    for (const key of camposNumericos) {
+      if (normalizados[key] === '') normalizados[key] = null;
+    }
+    return normalizados;
+  }
+
   private calcularCamposFaltantes(): string[] {
     const todos = [...CAMPOS_COMUNES, ...this.camposEspecificos()];
     const faltantes = todos.filter((campo) => this.form.get(campo.key)?.invalid).map((campo) => campo.label);
@@ -164,7 +179,7 @@ export class PropiedadForm implements OnInit {
     this.guardando.set(true);
     this.error.set(false);
 
-    const campos = this.form.getRawValue();
+    const campos = this.normalizarNumeros(this.form.getRawValue());
     const imagenes = this.imagenes().map((img, orden) => ({ url: img.url, orden }));
 
     // "tipo" tiene que ir primero en el objeto: el backend lo necesita como la primera
