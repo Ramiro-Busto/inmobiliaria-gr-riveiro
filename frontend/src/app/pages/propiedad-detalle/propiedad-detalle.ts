@@ -185,6 +185,7 @@ export class PropiedadDetalle implements OnInit {
   protected readonly enviandoConsulta = signal(false);
   protected readonly consultaEnviada = signal(false);
   protected readonly errorConsulta = signal(false);
+  protected readonly intentoEnviar = signal(false);
 
   protected readonly formConsulta = this.fb.nonNullable.group({
     nombre: ['', Validators.required],
@@ -256,6 +257,8 @@ export class PropiedadDetalle implements OnInit {
   }
 
   enviarConsulta(): void {
+    this.intentoEnviar.set(true);
+
     if (this.formConsulta.invalid) {
       this.formConsulta.markAllAsTouched();
       return;

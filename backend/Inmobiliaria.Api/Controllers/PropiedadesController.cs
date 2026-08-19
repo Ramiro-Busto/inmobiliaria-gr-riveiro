@@ -42,7 +42,7 @@ public class PropiedadesController(AppDbContext db) : ControllerBase
         [FromQuery] decimal? precioMax)
     {
         var query = db.Propiedades
-            .Include(p => p.Imagenes)
+            .Include(p => p.Imagenes.OrderBy(i => i.Orden))
             .Where(p => EstadosPublicos.Contains(p.Estado))
             .AsQueryable();
 
@@ -91,14 +91,14 @@ public class PropiedadesController(AppDbContext db) : ControllerBase
     [HttpGet("admin")]
     public async Task<ActionResult<IEnumerable<Propiedad>>> GetAllParaAdmin()
     {
-        return await db.Propiedades.Include(p => p.Imagenes).ToListAsync();
+        return await db.Propiedades.Include(p => p.Imagenes.OrderBy(i => i.Orden)).ToListAsync();
     }
 
     [HttpGet("{id:int}")]
     public async Task<ActionResult<Propiedad>> GetById(int id)
     {
         var propiedad = await db.Propiedades
-            .Include(p => p.Imagenes)
+            .Include(p => p.Imagenes.OrderBy(i => i.Orden))
             .FirstOrDefaultAsync(p => p.Id == id && EstadosPublicos.Contains(p.Estado));
 
         return propiedad is null ? NotFound() : propiedad;

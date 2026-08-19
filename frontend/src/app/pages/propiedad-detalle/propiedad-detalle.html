@@ -103,10 +103,49 @@
           } @else {
             <h3>Solicitá más información</h3>
             <form [formGroup]="formConsulta" (ngSubmit)="enviarConsulta()">
-              <input type="text" placeholder="Nombre completo" formControlName="nombre" />
-              <input type="email" placeholder="Email" formControlName="email" />
-              <input type="tel" placeholder="Teléfono" formControlName="telefono" />
-              <textarea rows="4" formControlName="mensaje"></textarea>
+              <label [class.is-invalido]="intentoEnviar() && formConsulta.controls.nombre.invalid">
+                Nombre completo
+                <input type="text" formControlName="nombre" />
+                <span
+                  class="detalle__campo-error"
+                  [class.is-visible]="intentoEnviar() && formConsulta.controls.nombre.invalid"
+                >
+                  Este campo es requerido.
+                </span>
+              </label>
+
+              <label [class.is-invalido]="intentoEnviar() && formConsulta.controls.email.invalid">
+                Email
+                <input type="email" formControlName="email" />
+                <span
+                  class="detalle__campo-error"
+                  [class.is-visible]="intentoEnviar() && formConsulta.controls.email.invalid"
+                >
+                  {{ formConsulta.controls.email.errors?.['required'] ? 'Este campo es requerido.' : 'Ingresá un email válido.' }}
+                </span>
+              </label>
+
+              <label [class.is-invalido]="intentoEnviar() && formConsulta.controls.telefono.invalid">
+                Teléfono
+                <input type="tel" formControlName="telefono" />
+                <span
+                  class="detalle__campo-error"
+                  [class.is-visible]="intentoEnviar() && formConsulta.controls.telefono.invalid"
+                >
+                  Este campo es requerido.
+                </span>
+              </label>
+
+              <label [class.is-invalido]="intentoEnviar() && formConsulta.controls.mensaje.invalid">
+                Mensaje
+                <textarea rows="4" formControlName="mensaje"></textarea>
+                <span
+                  class="detalle__campo-error"
+                  [class.is-visible]="intentoEnviar() && formConsulta.controls.mensaje.invalid"
+                >
+                  Este campo es requerido.
+                </span>
+              </label>
 
               @if (errorConsulta()) {
                 <p class="detalle__form-error">No se pudo enviar. Probá de nuevo en un momento.</p>
