@@ -82,4 +82,57 @@
       </tbody>
     </table>
   </section>
+
+  <section class="panel__seccion panel__seccion--card">
+    <h2>Cambiar contraseña</h2>
+
+    <form class="panel__form" [formGroup]="formPassword" (ngSubmit)="cambiarPassword()">
+      <label [class.is-invalido]="errorPasswordActual()">
+        Contraseña actual
+        <input type="password" formControlName="passwordActual" (input)="passwordActualIncorrecta.set(false)" />
+        <span class="panel__campo-error" [class.is-visible]="errorPasswordActual()">
+          {{ errorPasswordActual() }}
+        </span>
+      </label>
+
+      <label [class.is-invalido]="errorPasswordNueva()">
+        Contraseña nueva
+        <input type="password" formControlName="passwordNueva" />
+        <span class="panel__campo-error" [class.is-visible]="errorPasswordNueva()">
+          {{ errorPasswordNueva() }}
+        </span>
+      </label>
+
+      <label [class.is-invalido]="errorPasswordConfirmar()">
+        Repetir contraseña nueva
+        <input type="password" formControlName="passwordConfirmar" />
+        <span class="panel__campo-error" [class.is-visible]="errorPasswordConfirmar()">
+          {{ errorPasswordConfirmar() }}
+        </span>
+      </label>
+
+      <button type="submit" [disabled]="cambiandoPassword()">
+        {{ cambiandoPassword() ? 'Guardando...' : 'Cambiar contraseña' }}
+      </button>
+    </form>
+  </section>
 </section>
+
+@if (passwordExito()) {
+  <div class="panel__modal-fondo" (click)="passwordExito.set(false)">
+    <div class="panel__modal" (click)="$event.stopPropagation()">
+      <button type="button" class="panel__modal-cerrar" (click)="passwordExito.set(false)" aria-label="Cerrar">
+        <app-icon name="close" [size]="18" />
+      </button>
+
+      <div class="panel__modal-check">
+        <app-icon name="check" [size]="28" />
+      </div>
+
+      <h3>¡Contraseña actualizada!</h3>
+      <p>Tu contraseña se cambió correctamente.</p>
+
+      <button type="button" class="panel__modal-boton" (click)="passwordExito.set(false)">Listo</button>
+    </div>
+  </div>
+}

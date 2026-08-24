@@ -27,13 +27,6 @@
           {{ p.barrioCiudad }}, {{ p.partidoLocalidad }}
         </p>
       </div>
-
-      @if (tieneMapa()) {
-        <a href="#ubicacion" class="detalle__boton-mapa">
-          <app-icon name="mapPin" [size]="16" />
-          Ver mapa
-        </a>
-      }
     </div>
 
     <div class="detalle__principal">
@@ -167,24 +160,14 @@
 
         <section class="detalle__seccion" id="ubicacion">
           <h2>Ubicación</h2>
-          <p class="detalle__direccion">
-            <app-icon name="mapPin" [size]="16" />
-            {{ direccionCompleta() }}
-            @if (entreCalles()) {
-              <span class="detalle__entre-calles">({{ entreCalles() }})</span>
+          <ul class="detalle__ubicacion-lista">
+            @for (item of itemsUbicacion(); track item.texto) {
+              <li>
+                <app-icon [name]="item.icono" [size]="16" />
+                <span>{{ item.texto }}</span>
+              </li>
             }
-          </p>
-
-          @if (tieneMapa()) {
-            <div class="detalle__mapa">
-              <iframe [src]="mapaSrc()" title="Ubicación en el mapa" loading="lazy"></iframe>
-            </div>
-            <a [href]="mapaLinkGrande()" target="_blank" rel="noopener" class="detalle__mapa-link">
-              Ver mapa más grande en OpenStreetMap ↗
-            </a>
-          } @else {
-            <p class="detalle__mapa-vacio">Todavía no se cargó la ubicación exacta de esta propiedad en el mapa.</p>
-          }
+          </ul>
         </section>
       </div>
     </div>

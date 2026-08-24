@@ -79,26 +79,6 @@
     }
   }
 
-  &__boton-mapa {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    flex-shrink: 0;
-    text-decoration: none;
-    background: var(--color-accent);
-    color: var(--color-accent-contrast);
-    font-weight: 700;
-    font-size: 0.9rem;
-    padding: 0.7rem 1.3rem;
-    border-radius: 6px;
-    box-shadow: 0 4px 10px rgba(201, 162, 39, 0.35);
-    transition: background 0.15s ease;
-
-    &:hover {
-      background: var(--color-accent-dark);
-    }
-  }
-
   // --- Galería + panel de contacto ---
   // 3 piezas (galería+precio, contacto, descripción+ubicación) en vez de 2: así en mobile
   // se puede reordenar para que "Consultar por WhatsApp" no quede escondido al final,
@@ -472,56 +452,26 @@
     color: var(--color-text);
   }
 
-  &__direccion {
+  &__ubicacion-lista {
+    list-style: none;
+    margin: 0;
+    padding: 0;
     display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 0.4rem;
-    color: var(--color-text-muted);
-    margin: 0 0 1rem;
+    flex-direction: column;
+    gap: 0.7rem;
+
+    li {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      color: var(--color-text);
+      font-size: 0.95rem;
+    }
 
     app-icon {
       color: var(--color-accent-dark);
       flex-shrink: 0;
     }
-  }
-
-  &__entre-calles {
-    font-size: 0.9rem;
-  }
-
-  &__mapa {
-    border-radius: 10px;
-    overflow: hidden;
-    border: 1px solid var(--color-border);
-    box-shadow: var(--shadow);
-
-    iframe {
-      width: 100%;
-      height: 360px;
-      border: none;
-      display: block;
-    }
-  }
-
-  &__mapa-link {
-    display: inline-block;
-    margin-top: 0.6rem;
-    font-size: 0.85rem;
-    color: var(--color-accent-dark);
-    text-decoration: none;
-
-    &:hover {
-      color: var(--color-dark);
-    }
-  }
-
-  &__mapa-vacio {
-    background: var(--color-bg-alt);
-    color: var(--color-text-muted);
-    padding: 1.5rem;
-    border-radius: 10px;
-    text-align: center;
   }
 
   // --- Acordeones ---
@@ -638,7 +588,20 @@
     font-family: var(--font-body);
     font-weight: 800;
     font-size: 1.6rem;
-    margin: 0 0 1.6rem;
+    margin: 0 0 1.8rem;
+    position: relative;
+    padding-bottom: 0.9rem;
+
+    &::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 3rem;
+      height: 3px;
+      background: var(--color-accent);
+      border-radius: 999px;
+    }
   }
 
   &__grid {

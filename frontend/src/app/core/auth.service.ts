@@ -32,6 +32,10 @@ export class AuthService {
     this.token.set(null);
   }
 
+  cambiarPassword(passwordActual: string, passwordNueva: string): Observable<void> {
+    return this.http.put<void>(`${API_BASE_URL}/auth/password`, { passwordActual, passwordNueva });
+  }
+
   isLoggedIn(): boolean {
     return this.token() !== null;
   }

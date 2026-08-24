@@ -1,6 +1,5 @@
 import { DecimalPipe } from '@angular/common';
 import { Component, ElementRef, OnInit, computed, effect, inject, signal, viewChild } from '@angular/core';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { PropiedadesService } from '../../core/propiedades.service';
@@ -27,6 +26,11 @@ interface TarjetaCaracteristica {
   icono: IconName;
   valor: string;
   etiqueta: string;
+}
+
+interface ItemUbicacion {
+  icono: IconName;
+  texto: string;
 }
 
 const MAXIMO_TARJETAS = 4;
@@ -81,7 +85,6 @@ export class PropiedadDetalle implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly propiedadesService = inject(PropiedadesService);
   private readonly consultasService = inject(ConsultasService);
-  private readonly sanitizer = inject(DomSanitizer);
   private readonly fb = inject(FormBuilder);
   private readonly seo = inject(SeoService);
 
@@ -109,28 +112,32 @@ export class PropiedadDetalle implements OnInit {
     return p ? calcularTarjetas(p) : [];
   });
 
-  // Dirección completa para el renglón de arriba del mapa: solo suma lo que esté cargado
-  // (piso/depto, entre calles), sin dejar huecos raros si la propiedad no los tiene.
-  protected readonly direccionCompleta = computed(() => {
+  // Varios renglones de ubicación en vez de una sola línea larga: solo se agrega cada
+  // ítem si la propiedad realmente tiene ese dato cargado.
+  protected readonly itemsUbicacion = computed<ItemUbicacion[]>(() => {
     const p = this.propiedad();
-    if (!p) return '';
+    if (!p) return [];
+
+    const items: ItemUbicacion[] = [];
 
     const calleYNro = [p.calle, p['nroCalle']].filter(Boolean).join(' ');
     const pisoDepto = [p['piso'] ? `Piso ${p['piso']}` : null, p['depto'] ? `Depto ${p['depto']}` : null]
       .filter(Boolean)
       .join(', ');
+    const direccion = [calleYNro, pisoDepto].filter(Boolean).join(', ');
+    if (direccion) items.push({ icono: 'mapPin', texto: direccion });
 
-    return [calleYNro, pisoDepto, p.barrioCiudad, p.partidoLocalidad].filter(Boolean).join(', ');
-  });
-
-  protected readonly entreCalles = computed(() => {
-    const p = this.propiedad();
-    if (!p) return null;
+    if (p.barrioCiudad) items.push({ icono: 'home', texto: p.barrioCiudad });
+    if (p.partidoLocalidad) items.push({ icono: 'compass', texto: p.partidoLocalidad });
 
     const calle1 = p['entreCalle1'] as string | undefined;
     const calle2 = p['entreCalle2'] as string | undefined;
-    if (calle1 && calle2) return `entre ${calle1} y ${calle2}`;
-    return null;
+    if (calle1 && calle2) items.push({ icono: 'mapPin', texto: `Entre ${calle1} y ${calle2}` });
+
+    const cercaDe = p['cercaDe'] as string | undefined;
+    if (cercaDe) items.push({ icono: 'star', texto: `Cerca de ${cercaDe}` });
+
+    return items;
   });
 
   protected readonly datosBasicos = computed(() => {
@@ -157,30 +164,6 @@ export class PropiedadDetalle implements OnInit {
     const p = this.propiedad();
     const monto = p?.['expensasMonto'] as number | undefined;
     return monto ? monto : null;
-  });
-
-  protected readonly tieneMapa = computed(() => {
-    const p = this.propiedad();
-    return !!(p && p['latitud'] && p['longitud']);
-  });
-
-  protected readonly mapaSrc = computed<SafeResourceUrl>(() => {
-    const p = this.propiedad();
-    if (!p) return '';
-    const lat = p['latitud'] as number;
-    const lon = p['longitud'] as number;
-    const delta = 0.006;
-    const bbox = `${lon - delta}%2C${lat - delta}%2C${lon + delta}%2C${lat + delta}`;
-    const url = `https://www.openstreetmap.org/export/embed.html?bbox=${bbox}&layer=mapnik&marker=${lat}%2C${lon}`;
-    return this.sanitizer.bypassSecurityTrustResourceUrl(url);
-  });
-
-  protected readonly mapaLinkGrande = computed(() => {
-    const p = this.propiedad();
-    if (!p) return '';
-    const lat = p['latitud'] as number;
-    const lon = p['longitud'] as number;
-    return `https://www.openstreetmap.org/?mlat=${lat}&mlon=${lon}#map=16/${lat}/${lon}`;
   });
 
   private readonly seccionesAbiertas = signal<Set<SeccionAcordeon>>(new Set(['basicos']));

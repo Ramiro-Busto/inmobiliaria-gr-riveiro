@@ -206,6 +206,7 @@ const camposPH: FieldConfig[] = [
   select('orientacion', 'Orientación', ORIENTACION),
   select('luminosidad', 'Luminosidad', LUMINOSIDAD),
   numero('cocherasCubiertas', 'Cocheras cubiertas'),
+  numero('cocherasDescubiertas', 'Cocheras descubiertas'),
   numero('cantidadDormitorios', 'Dormitorios'),
   numero('cantidadBanos', 'Baños'),
   texto('serviciosPropiedad', 'Servicios (separados por coma)'),
