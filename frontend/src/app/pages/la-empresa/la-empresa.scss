@@ -51,6 +51,16 @@
     font-size: 1.05rem;
     margin: 0;
   }
+
+  &__colegiada {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    font-weight: 700;
+    color: var(--color-accent) !important;
+    margin-bottom: 0.9rem !important;
+  }
 }
 
 .mision {

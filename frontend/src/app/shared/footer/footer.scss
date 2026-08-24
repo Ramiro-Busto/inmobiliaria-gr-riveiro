@@ -121,6 +121,11 @@
       color: var(--color-accent);
       flex-shrink: 0;
     }
+
+    &--colegiada {
+      font-weight: 700;
+      color: var(--color-dark-text);
+    }
   }
 
   &__legal {

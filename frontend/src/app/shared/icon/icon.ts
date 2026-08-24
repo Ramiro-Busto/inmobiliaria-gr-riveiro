@@ -16,7 +16,8 @@ export type IconName =
   | 'key'
   | 'chart'
   | 'menu'
-  | 'upload';
+  | 'upload'
+  | 'badge';
 
 const ICONOS_RELLENOS: IconName[] = ['whatsapp', 'facebook'];
 
