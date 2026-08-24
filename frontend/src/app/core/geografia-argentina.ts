@@ -205,7 +205,17 @@ export const BARRIOS_POR_PARTIDO_ZONA_SUR: Record<string, string[]> = {
     'Rafael Calzada',
     'San José',
   ],
-  Berazategui: ['Berazategui', 'Berazategui Oeste', 'El Pato', 'Hudson', 'Plátanos', 'Ranelagh', 'Sourigues', 'Villa España'],
+  Berazategui: [
+    'Berazategui',
+    'Berazategui Oeste',
+    'El Pato',
+    'Gutiérrez',
+    'Hudson',
+    'Plátanos',
+    'Ranelagh',
+    'Sourigues',
+    'Villa España',
+  ],
   'Florencio Varela': [
     'Florencio Varela',
     'Bosques',
