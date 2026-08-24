@@ -1,10 +1,11 @@
 import { DecimalPipe } from '@angular/common';
-import { Component, OnInit, computed, inject, signal } from '@angular/core';
+import { Component, ElementRef, OnInit, computed, effect, inject, signal, viewChild } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { PropiedadesService } from '../../core/propiedades.service';
 import { ConsultasService } from '../../core/consultas.service';
+import { SeoService } from '../../core/seo.service';
 import { Propiedad } from '../../core/models/propiedad';
 import { linkWhatsAppPropiedad } from '../../shared/whatsapp';
 import { imagenUrl } from '../../core/api-config';
@@ -82,6 +83,7 @@ export class PropiedadDetalle implements OnInit {
   private readonly consultasService = inject(ConsultasService);
   private readonly sanitizer = inject(DomSanitizer);
   private readonly fb = inject(FormBuilder);
+  private readonly seo = inject(SeoService);
 
   protected readonly imagenUrl = imagenUrl;
   protected readonly TIPO_LABELS = TIPO_LABELS;
@@ -94,6 +96,7 @@ export class PropiedadDetalle implements OnInit {
   protected readonly error = signal(false);
 
   protected readonly indiceFoto = signal(0);
+  private readonly miniaturasContenedor = viewChild<ElementRef<HTMLDivElement>>('miniaturasContenedor');
 
   protected readonly linkWhatsapp = computed(() => {
     const id = this.propiedad()?.id;
@@ -194,6 +197,15 @@ export class PropiedadDetalle implements OnInit {
     mensaje: ['', Validators.required],
   });
 
+  constructor() {
+    effect(() => {
+      const indice = this.indiceFoto();
+      const contenedor = this.miniaturasContenedor()?.nativeElement;
+      const activa = contenedor?.children[indice] as HTMLElement | undefined;
+      activa?.scrollIntoView({ behavior: 'smooth', inline: 'nearest', block: 'nearest' });
+    });
+  }
+
   ngOnInit(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
 
@@ -204,6 +216,12 @@ export class PropiedadDetalle implements OnInit {
         this.formConsulta.patchValue({
           mensaje: `Hola, me interesa la propiedad "${propiedad.titulo}" en ${propiedad.calle} ${propiedad['nroCalle'] ?? ''}.`,
         });
+
+        const prefijoOperacion = propiedad.operacion ? `${etiquetaOpcion(propiedad.operacion)} - ` : '';
+        const descripcionSeo = `${prefijoOperacion}${TIPO_LABELS[propiedad.tipo]} en ${propiedad.barrioCiudad}, ${propiedad.partidoLocalidad}.`;
+        const imagenSeo = propiedad.imagenes[0] ? imagenUrl(propiedad.imagenes[0].url) : undefined;
+        this.seo.actualizar(propiedad.titulo, descripcionSeo, imagenSeo);
+
         this.cargarSimilares(propiedad);
       },
       error: () => {

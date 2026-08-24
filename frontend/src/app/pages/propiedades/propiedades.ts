@@ -6,6 +6,7 @@ import { FiltrosPropiedades, PropiedadesService } from '../../core/propiedades.s
 import { Moneda, Propiedad, TipoPropiedad, Operacion } from '../../core/models/propiedad';
 import { PropiedadCard } from '../../shared/propiedad-card/propiedad-card';
 import { TIPOS_PROPIEDAD, TIPO_LABELS, etiquetaOpcion } from '../../core/property-form-config';
+import { SeoService } from '../../core/seo.service';
 
 const OPERACIONES: Operacion[] = ['Venta', 'Alquiler', 'AlquilerTemporario', 'Remate'];
 const MONEDAS: { valor: Moneda; etiqueta: string }[] = [
@@ -25,6 +26,7 @@ export class Propiedades implements OnInit {
   private readonly propiedadesService = inject(PropiedadesService);
   private readonly route = inject(ActivatedRoute);
   private readonly fb = inject(FormBuilder);
+  private readonly seo = inject(SeoService);
 
   protected readonly TIPOS_PROPIEDAD = TIPOS_PROPIEDAD;
   protected readonly TIPO_LABELS = TIPO_LABELS;
@@ -73,6 +75,11 @@ export class Propiedades implements OnInit {
   });
 
   ngOnInit(): void {
+    this.seo.actualizar(
+      'Propiedades',
+      'Explorá casas, departamentos y locales en venta y alquiler en Quilmes y Zona Sur.',
+    );
+
     const queryParams = this.route.snapshot.queryParamMap;
     this.form.patchValue({
       tipo: queryParams.get('tipo') ?? '',

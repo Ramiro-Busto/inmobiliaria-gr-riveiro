@@ -51,7 +51,7 @@
           </div>
 
           @if (p.imagenes.length > 1) {
-            <div class="detalle__miniaturas">
+            <div class="detalle__miniaturas" #miniaturasContenedor>
               @for (imagen of p.imagenes; track imagen.id; let i = $index) {
                 <button
                   type="button"

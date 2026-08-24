@@ -5,6 +5,7 @@ import { ConsultasService } from '../../core/consultas.service';
 import { Icon } from '../../shared/icon/icon';
 import { linkWhatsApp } from '../../shared/whatsapp';
 import { MAIL_CONTACTO, TELEFONO_DISPLAY, TELEFONO_TEL } from '../../shared/redes';
+import { SeoService } from '../../core/seo.service';
 
 // Coordenadas reales de "Av. 12 de Octubre N° 463, Quilmes" (geocodificadas con OpenStreetMap).
 const OFICINA_LAT = -34.7291798;
@@ -49,6 +50,13 @@ export class Contacto {
     email: ['', [Validators.required, Validators.email]],
     mensaje: ['Hola, quiero que me contacten. Gracias.', Validators.required],
   });
+
+  constructor() {
+    inject(SeoService).actualizar(
+      'Contacto',
+      'Comunicate con GR Riveiro Negocios Inmobiliarios en Quilmes, Zona Sur. Av. 12 de Octubre N° 463.',
+    );
+  }
 
   // Alto automático: crece con el texto en vez de dejar que se arrastre a mano.
   autoAjustarAltura(textarea: HTMLTextAreaElement): void {

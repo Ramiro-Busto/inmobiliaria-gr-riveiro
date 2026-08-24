@@ -4,6 +4,7 @@ import { ConsultasService } from '../../core/consultas.service';
 import { Icon } from '../../shared/icon/icon';
 import { TIPOS_PROPIEDAD, TIPO_LABELS } from '../../core/property-form-config';
 import { TipoPropiedad } from '../../core/models/propiedad';
+import { SeoService } from '../../core/seo.service';
 
 @Component({
   selector: 'app-tasaciones',
@@ -31,6 +32,13 @@ export class Tasaciones {
     email: ['', [Validators.required, Validators.email]],
     tipoPropiedad: ['', Validators.required],
   });
+
+  constructor() {
+    inject(SeoService).actualizar(
+      'Tasaciones',
+      'Solicitá una tasación gratuita de tu propiedad en Quilmes y Zona Sur con GR Riveiro Negocios Inmobiliarios.',
+    );
+  }
 
   enviar(): void {
     this.intentoEnviar.set(true);

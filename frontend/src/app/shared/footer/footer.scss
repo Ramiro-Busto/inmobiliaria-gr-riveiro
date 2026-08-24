@@ -88,6 +88,10 @@
     // así que lo mostramos en blanco monocromático.
     filter: brightness(0) invert(1);
     margin-bottom: 0.6rem;
+
+    @media (max-width: 720px) {
+      align-self: center;
+    }
   }
 
   &__redes {

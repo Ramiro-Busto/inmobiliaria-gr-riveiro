@@ -5,6 +5,7 @@ import { PropiedadCard } from '../../shared/propiedad-card/propiedad-card';
 import { Icon } from '../../shared/icon/icon';
 import { FiltrosPropiedades, PropiedadesService } from '../../core/propiedades.service';
 import { Propiedad } from '../../core/models/propiedad';
+import { SeoService } from '../../core/seo.service';
 
 const CANTIDAD_POR_TANDA = 9;
 
@@ -17,6 +18,7 @@ const CANTIDAD_POR_TANDA = 9;
 export class Inicio implements OnInit {
   private readonly router = inject(Router);
   private readonly propiedadesService = inject(PropiedadesService);
+  private readonly seo = inject(SeoService);
 
   private readonly todas = signal<Propiedad[]>([]);
   protected readonly cantidadMostrada = signal(CANTIDAD_POR_TANDA);
@@ -26,6 +28,10 @@ export class Inicio implements OnInit {
   protected readonly hayMas = computed(() => this.cantidadMostrada() < this.todas().length);
 
   ngOnInit(): void {
+    this.seo.actualizar(
+      null,
+      'Inmobiliaria en Quilmes, Zona Sur. Venta y alquiler de casas, departamentos y locales, con acompañamiento profesional en todo el proceso.',
+    );
     this.propiedadesService.getAll().subscribe((propiedades) => this.todas.set(propiedades));
   }
 
