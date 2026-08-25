@@ -397,6 +397,20 @@
     grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
     gap: 0.8rem;
     margin: 1.3rem 0 2.2rem;
+
+    // Con 4 tarjetas no entran prolijas en la grilla de escritorio: se muestran
+    // como barritas horizontales, igual que en mobile.
+    &--barras {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    @media (max-width: 600px) {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
   }
 
   &__tarjeta {
@@ -417,6 +431,41 @@
 
     app-icon {
       color: var(--color-accent-dark);
+    }
+
+    .detalle__tarjetas--barras & {
+      flex-direction: row;
+      justify-content: flex-start;
+      text-align: left;
+      gap: 0.9rem;
+      padding: 0.85rem 1rem;
+    }
+
+    @media (max-width: 600px) {
+      flex-direction: row;
+      justify-content: flex-start;
+      text-align: left;
+      gap: 0.9rem;
+      padding: 0.85rem 1rem;
+    }
+  }
+
+  &__tarjeta-texto {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.2rem;
+
+    .detalle__tarjetas--barras & {
+      flex-direction: row;
+      align-items: baseline;
+      gap: 0.4rem;
+    }
+
+    @media (max-width: 600px) {
+      flex-direction: row;
+      align-items: baseline;
+      gap: 0.4rem;
     }
   }
 

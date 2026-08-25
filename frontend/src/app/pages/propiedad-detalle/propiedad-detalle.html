@@ -71,12 +71,14 @@
         }
 
         @if (tarjetas().length > 0) {
-          <div class="detalle__tarjetas">
+          <div class="detalle__tarjetas" [class.detalle__tarjetas--barras]="tarjetas().length > 3">
             @for (tarjeta of tarjetas(); track tarjeta.etiqueta) {
               <div class="detalle__tarjeta">
                 <app-icon [name]="tarjeta.icono" [size]="22" />
-                <span class="detalle__tarjeta-valor">{{ tarjeta.valor }}</span>
-                <span class="detalle__tarjeta-etiqueta">{{ tarjeta.etiqueta }}</span>
+                <div class="detalle__tarjeta-texto">
+                  <span class="detalle__tarjeta-valor">{{ tarjeta.valor }}</span>
+                  <span class="detalle__tarjeta-etiqueta">{{ tarjeta.etiqueta }}</span>
+                </div>
               </div>
             }
           </div>
