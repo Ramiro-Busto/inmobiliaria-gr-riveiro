@@ -101,44 +101,6 @@ export class PropiedadDetalle implements OnInit {
   protected readonly indiceFoto = signal(0);
   private readonly miniaturasContenedor = viewChild<ElementRef<HTMLDivElement>>('miniaturasContenedor');
 
-  // Deslizar la foto principal con el dedo (mobile) o arrastrando con el mouse
-  // (desktop). Los Pointer Events unifican ambos casos. Si hay más de un puntero
-  // activo (pellizco con dos dedos para zoom) se cancela el arrastre para no
-  // interferir con el zoom nativo del navegador.
-  private static readonly UMBRAL_SWIPE_PX = 40;
-  private readonly punterosActivos = new Set<number>();
-  private arrastre: { pointerId: number; inicioX: number } | null = null;
-
-  onFotoPointerDown(event: PointerEvent): void {
-    this.punterosActivos.add(event.pointerId);
-    if (this.punterosActivos.size > 1) {
-      this.arrastre = null;
-      return;
-    }
-    this.arrastre = { pointerId: event.pointerId, inicioX: event.clientX };
-    // Mantiene el arrastre "capturado" en este elemento aunque el mouse/dedo
-    // se mueva fuera de su área antes de soltarlo.
-    (event.currentTarget as HTMLElement).setPointerCapture(event.pointerId);
-  }
-
-  onFotoPointerUp(event: PointerEvent): void {
-    this.punterosActivos.delete(event.pointerId);
-
-    if (!this.arrastre || this.arrastre.pointerId !== event.pointerId) return;
-
-    const deltaX = event.clientX - this.arrastre.inicioX;
-    this.arrastre = null;
-
-    if (Math.abs(deltaX) < PropiedadDetalle.UMBRAL_SWIPE_PX) return;
-    if (deltaX < 0) this.fotoSiguiente();
-    else this.fotoAnterior();
-  }
-
-  onFotoPointerCancel(event: PointerEvent): void {
-    this.punterosActivos.delete(event.pointerId);
-    if (this.arrastre?.pointerId === event.pointerId) this.arrastre = null;
-  }
-
   protected readonly linkWhatsapp = computed(() => {
     const id = this.propiedad()?.id;
     const urlPropiedad = `${window.location.origin}/propiedades/${id}`;
