@@ -31,6 +31,9 @@ html,
 body {
   margin: 0;
   padding: 0;
+  // Evita que un doble-tap accidental en mobile dispare el zoom del navegador
+  // (el pellizco con dos dedos para hacer zoom a propósito sigue funcionando).
+  touch-action: manipulation;
 }
 
 body {
