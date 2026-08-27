@@ -4,6 +4,7 @@ using Inmobiliaria.Api.Dtos;
 using Inmobiliaria.Api.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
 
 namespace Inmobiliaria.Api.Controllers;
@@ -12,6 +13,9 @@ namespace Inmobiliaria.Api.Controllers;
 [Route("api/auth")]
 public class AuthController(AppDbContext db, JwtService jwtService) : ControllerBase
 {
+    // Máximo 5 intentos por minuto por IP: frena la fuerza bruta de contraseña sin
+    // afectar un login normal (ni siquiera si tu mamá se equivoca un par de veces).
+    [EnableRateLimiting("login")]
     [HttpPost("login")]
     public async Task<ActionResult<LoginResponse>> Login(LoginRequest request)
     {

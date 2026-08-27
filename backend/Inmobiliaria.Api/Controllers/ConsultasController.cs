@@ -4,6 +4,7 @@ using Inmobiliaria.Api.Models;
 using Inmobiliaria.Api.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
 
 namespace Inmobiliaria.Api.Controllers;
@@ -12,7 +13,10 @@ namespace Inmobiliaria.Api.Controllers;
 [Route("api/consultas")]
 public class ConsultasController(AppDbContext db, IEmailService emailService) : ControllerBase
 {
-    // Público: se usa desde los formularios de Contacto y Tasaciones.
+    // Público: se usa desde los formularios de Contacto y Tasaciones. Máximo 5 envíos
+    // cada 10 minutos por IP: frena el spam (cada consulta manda un mail) sin afectar
+    // a alguien que manda una consulta real.
+    [EnableRateLimiting("consultas")]
     [HttpPost]
     public async Task<ActionResult<Consulta>> Create(ConsultaCreateDto dto)
     {

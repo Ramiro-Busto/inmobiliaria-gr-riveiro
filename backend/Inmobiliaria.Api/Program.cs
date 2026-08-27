@@ -1,10 +1,12 @@
 using System.Text;
 using System.Text.Json.Serialization;
+using System.Threading.RateLimiting;
 using Inmobiliaria.Api.Data;
 using Inmobiliaria.Api.Models;
 using Inmobiliaria.Api.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
@@ -67,6 +69,32 @@ builder.Services
 
 builder.Services.AddAuthorization();
 
+// Límites por IP para los dos endpoints públicos más expuestos a abuso: login (fuerza
+// bruta de contraseña) y consultas (spam, que además dispara un mail por cada envío).
+// No afecta al resto de la API ni a un uso normal del sitio.
+builder.Services.AddRateLimiter(options =>
+{
+    options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
+
+    options.AddPolicy("login", httpContext => RateLimitPartition.GetFixedWindowLimiter(
+        partitionKey: httpContext.Connection.RemoteIpAddress?.ToString() ?? "sin-ip",
+        factory: _ => new FixedWindowRateLimiterOptions
+        {
+            PermitLimit = 5,
+            Window = TimeSpan.FromMinutes(1),
+            QueueLimit = 0,
+        }));
+
+    options.AddPolicy("consultas", httpContext => RateLimitPartition.GetFixedWindowLimiter(
+        partitionKey: httpContext.Connection.RemoteIpAddress?.ToString() ?? "sin-ip",
+        factory: _ => new FixedWindowRateLimiterOptions
+        {
+            PermitLimit = 5,
+            Window = TimeSpan.FromMinutes(10),
+            QueueLimit = 0,
+        }));
+});
+
 // Qué orígenes puede llamar a esta API. En producción se configura con la variable
 // "Cors:AllowedOrigins" (separados por coma: la URL de Netlify, el dominio propio, etc.).
 const string FrontendCors = "Frontend";
@@ -116,6 +144,8 @@ if (dataDir is not null)
 }
 
 app.UseCors(FrontendCors);
+
+app.UseRateLimiter();
 
 app.UseAuthentication();
 app.UseAuthorization();
