@@ -130,6 +130,11 @@ if (app.Environment.IsDevelopment())
 var forwardedHeadersOptions = new ForwardedHeadersOptions
 {
     ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto,
+    // Por defecto solo procesa 1 salto del encabezado. Render puede meter más de un
+    // proxy interno antes de llegar acá, así que sin esto la IP "real" que queda es
+    // la de un salto intermedio de Render (no la del visitante), y encima puede
+    // variar de pedido a pedido según a qué instancia interna le tocó enrutar.
+    ForwardLimit = null,
 };
 forwardedHeadersOptions.KnownIPNetworks.Clear();
 forwardedHeadersOptions.KnownProxies.Clear();
