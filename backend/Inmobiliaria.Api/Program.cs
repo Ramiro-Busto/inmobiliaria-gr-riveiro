@@ -121,11 +121,19 @@ if (app.Environment.IsDevelopment())
 }
 
 // Render (y cualquier hosting con proxy delante) termina el HTTPS antes de llegar a la app;
-// esto le permite a ASP.NET Core enterarse de que el pedido original sí era HTTPS.
-app.UseForwardedHeaders(new ForwardedHeadersOptions
+// esto le permite a ASP.NET Core enterarse de que el pedido original sí era HTTPS y cuál es
+// la IP real del visitante (si no, todos los pedidos parecen venir de la IP del proxy de
+// Render, y el rate limiting de abajo nunca junta los intentos de un mismo atacante).
+// Como no conocemos de antemano la IP del proxy de Render, hay que decirle explícitamente
+// que confíe en el salto inmediato (es la única forma de llegar a la app: no está expuesta
+// directo a internet).
+var forwardedHeadersOptions = new ForwardedHeadersOptions
 {
     ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto,
-});
+};
+forwardedHeadersOptions.KnownIPNetworks.Clear();
+forwardedHeadersOptions.KnownProxies.Clear();
+app.UseForwardedHeaders(forwardedHeadersOptions);
 
 app.UseHttpsRedirection();
 
