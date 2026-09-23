@@ -1,7 +1,7 @@
 import { Moneda, TipoPropiedad } from './models/propiedad';
 import { ZONAS_GEOGRAFICAS } from './geografia-argentina';
 
-export type FieldType = 'text' | 'textarea' | 'number' | 'select' | 'checkbox';
+export type FieldType = 'text' | 'textarea' | 'number' | 'precio' | 'select' | 'checkbox';
 
 export interface FieldConfig {
   key: string;
@@ -47,6 +47,15 @@ const numero = (key: string, label: string, requerido = false): FieldConfig => (
   type: 'number',
   requerido,
 });
+// Para montos en pesos/dólares: a diferencia de <input type="number">, que solo entiende el
+// punto como separador decimal (y descarta en silencio un segundo punto), este campo se
+// escribe como texto y formatea con puntos de miles como se escriben los precios en Argentina.
+const precio = (key: string, label: string, requerido = false): FieldConfig => ({
+  key,
+  label,
+  type: 'precio',
+  requerido,
+});
 const check = (key: string, label: string): FieldConfig => ({ key, label, type: 'checkbox' });
 const select = (key: string, label: string, opciones: string[], requerido = false): FieldConfig => ({
   key,
@@ -66,10 +75,10 @@ export const CAMPOS_COMUNES: FieldConfig[] = [
     ['Vigente', 'Reservado', 'Suspendido', 'Historico', 'EnTasacion', 'Alquilado', 'Vendido', 'Borrador'],
     true,
   ),
-  numero('monto', 'Monto', true),
+  precio('monto', 'Monto', true),
   select('moneda', 'Moneda', ['Pesos', 'Dolares'], true),
   check('noPublicarPrecio', 'No publicar el precio'),
-  numero('expensasMonto', 'Expensas (monto)'),
+  precio('expensasMonto', 'Expensas (monto)'),
   select('expensasTipo', 'Expensas (tipo)', [
     'No incluidas',
     'Incluidas',

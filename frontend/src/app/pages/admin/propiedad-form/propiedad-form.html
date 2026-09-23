@@ -55,6 +55,15 @@
               @case ('number') {
                 <input type="number" [formControlName]="campo.key" />
               }
+              @case ('precio') {
+                <input
+                  type="text"
+                  inputmode="numeric"
+                  [value]="formatearMiles(form.get(campo.key)?.value)"
+                  (input)="actualizarPrecio(campo.key, $event)"
+                  (blur)="form.get(campo.key)?.markAsTouched()"
+                />
+              }
               @default {
                 <input type="text" [formControlName]="campo.key" />
               }
@@ -176,6 +185,15 @@
               }
               @case ('number') {
                 <input type="number" [formControlName]="campo.key" />
+              }
+              @case ('precio') {
+                <input
+                  type="text"
+                  inputmode="numeric"
+                  [value]="formatearMiles(form.get(campo.key)?.value)"
+                  (input)="actualizarPrecio(campo.key, $event)"
+                  (blur)="form.get(campo.key)?.markAsTouched()"
+                />
               }
               @default {
                 <input type="text" [formControlName]="campo.key" />

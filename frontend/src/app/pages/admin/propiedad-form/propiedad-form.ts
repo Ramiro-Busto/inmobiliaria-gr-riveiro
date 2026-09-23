@@ -108,6 +108,23 @@ export class PropiedadForm implements OnInit {
     return this.fb.control(valorInicial, campo.requerido ? Validators.required : []);
   }
 
+  // Formatea un monto (número o string) con puntos de miles, como se escriben los
+  // precios en Argentina. Se usa para mostrar el valor en los campos tipo "precio".
+  protected formatearMiles(valor: unknown): string {
+    const digitos = String(valor ?? '').replace(/\D/g, '');
+    return digitos ? Number(digitos).toLocaleString('es-AR') : '';
+  }
+
+  // A diferencia de <input type="number">, acá se descarta cualquier caracter que no sea
+  // dígito (puntos, comas, espacios) en vez de dejar que el navegador interprete el punto
+  // como separador decimal y arruine el monto en silencio.
+  protected actualizarPrecio(key: string, event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const digitos = input.value.replace(/\D/g, '');
+    this.form.get(key)?.setValue(digitos ? Number(digitos) : null);
+    input.value = this.formatearMiles(digitos);
+  }
+
   seleccionarTipo(tipo: TipoPropiedad): void {
     const tipoAnterior = this.tipoSeleccionado();
     if (tipoAnterior) {
@@ -245,7 +262,7 @@ export class PropiedadForm implements OnInit {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private normalizarNumeros(campos: any): any {
     const camposNumericos = [...CAMPOS_COMUNES, ...this.camposEspecificos()]
-      .filter((campo) => campo.type === 'number')
+      .filter((campo) => campo.type === 'number' || campo.type === 'precio')
       .map((campo) => campo.key);
 
     const normalizados = { ...campos };
