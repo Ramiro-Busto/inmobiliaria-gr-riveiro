@@ -36,6 +36,10 @@
           <div class="detalle__foto-principal">
             <img [src]="imagenUrl(p.imagenes[indiceFoto()].url)" [alt]="p.titulo" />
 
+            @if (etiquetaEstadoBanner(p.estado)) {
+              <div class="detalle__estado-banner">{{ etiquetaEstadoBanner(p.estado) }}</div>
+            }
+
             @if (p.imagenes.length > 1) {
               <button type="button" class="detalle__flecha detalle__flecha--izq" (click)="fotoAnterior()" aria-label="Foto anterior">‹</button>
               <button type="button" class="detalle__flecha detalle__flecha--der" (click)="fotoSiguiente()" aria-label="Foto siguiente">›</button>

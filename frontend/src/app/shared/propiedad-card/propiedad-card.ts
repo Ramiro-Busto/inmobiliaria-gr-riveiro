@@ -4,7 +4,7 @@ import { RouterLink } from '@angular/router';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Propiedad } from '../../core/models/propiedad';
 import { imagenUrl } from '../../core/api-config';
-import { TIPO_LABELS, etiquetaOpcion, etiquetaMoneda } from '../../core/property-form-config';
+import { TIPO_LABELS, etiquetaOpcion, etiquetaMoneda, etiquetaEstadoBanner } from '../../core/property-form-config';
 import { ConsultasService } from '../../core/consultas.service';
 import { linkWhatsAppPropiedad } from '../whatsapp';
 import { Icon, IconName } from '../icon/icon';
@@ -57,6 +57,7 @@ export class PropiedadCard {
   protected readonly TIPO_LABELS = TIPO_LABELS;
   protected readonly etiquetaOpcion = etiquetaOpcion;
   protected readonly etiquetaMoneda = etiquetaMoneda;
+  protected readonly etiquetaEstadoBanner = etiquetaEstadoBanner;
 
   protected readonly linkWhatsapp = computed(() =>
     linkWhatsAppPropiedad(`${window.location.origin}/propiedades/${this.propiedad.id}`),

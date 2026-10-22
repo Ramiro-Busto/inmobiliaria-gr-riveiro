@@ -81,6 +81,21 @@
     }
   }
 
+  &__estado-banner {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 0.5rem 0.7rem;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--color-accent);
+    background: rgba(22, 20, 15, 0.82);
+  }
+
   &__body {
     display: flex;
     flex-direction: column;

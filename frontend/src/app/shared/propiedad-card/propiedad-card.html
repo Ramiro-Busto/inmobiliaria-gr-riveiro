@@ -13,6 +13,10 @@
         }
         <span class="card__badge card__badge--tipo">{{ TIPO_LABELS[propiedad.tipo] }}</span>
       </div>
+
+      @if (etiquetaEstadoBanner(propiedad.estado)) {
+        <div class="card__estado-banner">{{ etiquetaEstadoBanner(propiedad.estado) }}</div>
+      }
     </div>
 
     <div class="card__body">

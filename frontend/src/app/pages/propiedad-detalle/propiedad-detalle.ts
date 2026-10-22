@@ -14,6 +14,7 @@ import {
   TIPO_LABELS,
   etiquetaOpcion,
   etiquetaMoneda,
+  etiquetaEstadoBanner,
   datosBasicos,
   caracteristicasEspecificas,
   listaServicios,
@@ -92,6 +93,7 @@ export class PropiedadDetalle implements OnInit {
   protected readonly TIPO_LABELS = TIPO_LABELS;
   protected readonly etiquetaOpcion = etiquetaOpcion;
   protected readonly etiquetaMoneda = etiquetaMoneda;
+  protected readonly etiquetaEstadoBanner = etiquetaEstadoBanner;
 
   protected readonly propiedad = signal<Propiedad | null>(null);
   protected readonly similares = signal<Propiedad[]>([]);

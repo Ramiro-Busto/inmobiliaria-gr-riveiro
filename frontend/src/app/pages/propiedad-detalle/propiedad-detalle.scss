@@ -135,6 +135,21 @@
     }
   }
 
+  &__estado-banner {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 0.6rem 0.9rem;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--color-accent);
+    background: rgba(22, 20, 15, 0.82);
+  }
+
   &__sin-imagen {
     height: 480px;
     display: flex;

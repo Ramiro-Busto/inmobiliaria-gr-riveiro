@@ -24,6 +24,18 @@ export function etiquetaOpcion(valor: string): string {
   return ETIQUETAS_OPCION[valor] ?? valor;
 }
 
+// Cartel sobre la foto principal según el estado de la publicación. Vigente (el
+// estado normal) no muestra cartel; el resto de los estados públicos sí.
+const ETIQUETAS_ESTADO_BANNER: Record<string, string> = {
+  Reservado: 'Reservado',
+  Vendido: 'Vendido',
+  Alquilado: 'Alquilado',
+};
+
+export function etiquetaEstadoBanner(estado: string | undefined): string | null {
+  return estado ? ETIQUETAS_ESTADO_BANNER[estado] ?? null : null;
+}
+
 // Símbolo de moneda para mostrar junto al precio (pesos argentinos = ARS, no "$" a secas).
 export function etiquetaMoneda(moneda: Moneda | undefined): string {
   return moneda === 'Dolares' ? 'U$D' : 'ARS';

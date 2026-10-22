@@ -26,10 +26,11 @@ public class PropiedadesController(AppDbContext db) : ControllerBase
         return builder.ToString().Normalize(NormalizationForm.FormC).ToLowerInvariant();
     }
 
-    // Estados que se muestran en el sitio público. El resto (Borrador, Vendido, etc.)
-    // solo los ve la administradora desde el panel.
+    // Estados que se muestran en el sitio público, cada uno con su cartel sobre la
+    // foto principal (ver etiquetaEstadoBanner en el frontend). El resto (Borrador,
+    // Suspendido, Historico, EnTasacion) solo los ve la administradora desde el panel.
     private static readonly EstadoPublicacion[] EstadosPublicos =
-        [EstadoPublicacion.Vigente, EstadoPublicacion.Reservado];
+        [EstadoPublicacion.Vigente, EstadoPublicacion.Reservado, EstadoPublicacion.Vendido, EstadoPublicacion.Alquilado];
 
     // GET api/propiedades?tipo=Casa&operacion=Venta&moneda=Dolares&ubicacion=Quilmes&precioMin=10000&precioMax=50000
     [HttpGet]
