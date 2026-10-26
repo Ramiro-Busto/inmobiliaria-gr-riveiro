@@ -53,13 +53,13 @@ Se armó **desde cero**, definiendo el modelo de datos según los 8 tipos de pro
 
 ## Tecnologías
 
-**Backend** — `backend/`
+**Backend** - `backend/`
 - ASP.NET Core 10 (Web API)
 - Entity Framework Core 10 + SQLite (con herencia TPH para los 8 tipos de propiedad)
 - Autenticación JWT + contraseñas hasheadas con BCrypt
 - Envío de mails por SMTP
 
-**Frontend** — `frontend/`
+**Frontend** - `frontend/`
 - Angular 22 (standalone components, Signals, nueva sintaxis de control de flujo)
 - Angular CDK (drag & drop de fotos)
 - TypeScript, SCSS
