@@ -6,7 +6,8 @@ export type TipoPropiedad =
   | 'Quinta'
   | 'Terreno'
   | 'PH'
-  | 'Emprendimiento';
+  | 'Emprendimiento'
+  | 'Cochera';
 
 export type Operacion = 'Venta' | 'Alquiler' | 'AlquilerTemporario' | 'Remate';
 

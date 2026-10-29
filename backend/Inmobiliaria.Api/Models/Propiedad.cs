@@ -23,6 +23,7 @@ namespace Inmobiliaria.Api.Models;
 [JsonDerivedType(typeof(Terreno), nameof(TipoPropiedad.Terreno))]
 [JsonDerivedType(typeof(PH), nameof(TipoPropiedad.PH))]
 [JsonDerivedType(typeof(Emprendimiento), nameof(TipoPropiedad.Emprendimiento))]
+[JsonDerivedType(typeof(Cochera), nameof(TipoPropiedad.Cochera))]
 public abstract class Propiedad
 {
     public int Id { get; set; }

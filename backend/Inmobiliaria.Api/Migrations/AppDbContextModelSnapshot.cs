@@ -243,141 +243,125 @@ namespace Inmobiliaria.Api.Migrations
                     b.HasBaseType("Inmobiliaria.Api.Models.Propiedad");
 
                     b.Property<string>("AguaCaliente")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Casa_AguaCaliente");
 
                     b.Property<string>("Calefaccion")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Casa_Calefaccion");
 
                     b.Property<int?>("CantidadBanos")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("Casa_CantidadBanos");
 
                     b.Property<int?>("CantidadDormitorios")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("Casa_CantidadDormitorios");
 
                     b.Property<int?>("CocherasCubiertas")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("Casa_CocherasCubiertas");
 
                     b.Property<int?>("CocherasDescubiertas")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("Casa_CocherasDescubiertas");
 
                     b.Property<int?>("CocherasSemicubiertas")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("Casa_CocherasSemicubiertas");
 
                     b.Property<string>("Edificacion")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Casa_Edificacion");
 
                     b.Property<decimal?>("FondoLibre")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Casa_FondoLibre");
 
                     b.Property<string>("Instalaciones")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Instalaciones");
 
                     b.Property<string>("Luminosidad")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Casa_Luminosidad");
 
                     b.Property<decimal?>("MedidasTerrenoAncho")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Casa_MedidasTerrenoAncho");
 
                     b.Property<decimal?>("MedidasTerrenoLargo")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Casa_MedidasTerrenoLargo");
 
                     b.Property<string>("Orientacion")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Casa_Orientacion");
 
                     b.Property<string>("Plantas")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Casa_Plantas");
 
                     b.Property<string>("Servicios")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Servicios");
 
                     b.Property<decimal?>("SuperficieCubierta")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Casa_SuperficieCubierta");
 
                     b.Property<decimal?>("SuperficieDescubierta")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Casa_SuperficieDescubierta");
 
                     b.Property<decimal?>("SuperficieTerreno")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Casa_SuperficieTerreno");
 
                     b.Property<decimal?>("SuperficieTotal")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Casa_SuperficieTotal");
 
                     b.Property<string>("TipoPiso")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Casa_TipoPiso");
 
                     b.Property<string>("TipoTecho")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Casa_TipoTecho");
 
                     b.Property<string>("TipoVigilancia")
-                        .HasColumnType("TEXT");
-
-                    b.ToTable("Propiedades", t =>
-                        {
-                            t.Property("AguaCaliente")
-                                .HasColumnName("Casa_AguaCaliente");
-
-                            t.Property("Calefaccion")
-                                .HasColumnName("Casa_Calefaccion");
-
-                            t.Property("CantidadBanos")
-                                .HasColumnName("Casa_CantidadBanos");
-
-                            t.Property("CantidadDormitorios")
-                                .HasColumnName("Casa_CantidadDormitorios");
-
-                            t.Property("CocherasCubiertas")
-                                .HasColumnName("Casa_CocherasCubiertas");
-
-                            t.Property("CocherasDescubiertas")
-                                .HasColumnName("Casa_CocherasDescubiertas");
-
-                            t.Property("CocherasSemicubiertas")
-                                .HasColumnName("Casa_CocherasSemicubiertas");
-
-                            t.Property("Edificacion")
-                                .HasColumnName("Casa_Edificacion");
-
-                            t.Property("FondoLibre")
-                                .HasColumnName("Casa_FondoLibre");
-
-                            t.Property("Luminosidad")
-                                .HasColumnName("Casa_Luminosidad");
-
-                            t.Property("MedidasTerrenoAncho")
-                                .HasColumnName("Casa_MedidasTerrenoAncho");
-
-                            t.Property("MedidasTerrenoLargo")
-                                .HasColumnName("Casa_MedidasTerrenoLargo");
-
-                            t.Property("Orientacion")
-                                .HasColumnName("Casa_Orientacion");
-
-                            t.Property("Plantas")
-                                .HasColumnName("Casa_Plantas");
-
-                            t.Property("SuperficieCubierta")
-                                .HasColumnName("Casa_SuperficieCubierta");
-
-                            t.Property("SuperficieDescubierta")
-                                .HasColumnName("Casa_SuperficieDescubierta");
-
-                            t.Property("SuperficieTerreno")
-                                .HasColumnName("Casa_SuperficieTerreno");
-
-                            t.Property("SuperficieTotal")
-                                .HasColumnName("Casa_SuperficieTotal");
-
-                            t.Property("TipoPiso")
-                                .HasColumnName("Casa_TipoPiso");
-
-                            t.Property("TipoTecho")
-                                .HasColumnName("Casa_TipoTecho");
-
-                            t.Property("TipoVigilancia")
-                                .HasColumnName("Casa_TipoVigilancia");
-                        });
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Casa_TipoVigilancia");
 
                     b.HasDiscriminator().HasValue("Casa");
+                });
+
+            modelBuilder.Entity("Inmobiliaria.Api.Models.Cochera", b =>
+                {
+                    b.HasBaseType("Inmobiliaria.Api.Models.Propiedad");
+
+                    b.Property<bool?>("PortonAutomatico")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Servicios")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Cochera_Servicios");
+
+                    b.Property<decimal?>("SuperficieTotal")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Cochera_SuperficieTotal");
+
+                    b.Property<bool?>("Techada")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("TipoCochera")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Ubicacion")
+                        .HasColumnType("TEXT");
+
+                    b.HasDiscriminator().HasValue("Cochera");
                 });
 
             modelBuilder.Entity("Inmobiliaria.Api.Models.Departamento", b =>
@@ -385,10 +369,12 @@ namespace Inmobiliaria.Api.Migrations
                     b.HasBaseType("Inmobiliaria.Api.Models.Propiedad");
 
                     b.Property<string>("AguaCaliente")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Departamento_AguaCaliente");
 
                     b.Property<string>("AmenitiesEdificio")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Departamento_AmenitiesEdificio");
 
                     b.Property<int?>("AscensoresPrincipales")
                         .HasColumnType("INTEGER");
@@ -397,13 +383,16 @@ namespace Inmobiliaria.Api.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Calefaccion")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Departamento_Calefaccion");
 
                     b.Property<int?>("CantidadBanos")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("Departamento_CantidadBanos");
 
                     b.Property<int?>("CantidadDormitorios")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("Departamento_CantidadDormitorios");
 
                     b.Property<int?>("CantidadPisosEdificio")
                         .HasColumnType("INTEGER");
@@ -415,52 +404,67 @@ namespace Inmobiliaria.Api.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<int?>("CocherasCubiertas")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("Departamento_CocherasCubiertas");
 
                     b.Property<int?>("CocherasDescubiertas")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("Departamento_CocherasDescubiertas");
 
                     b.Property<int?>("CocherasSemicubiertas")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("Departamento_CocherasSemicubiertas");
 
                     b.Property<int?>("DeptosPorPiso")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Disposicion")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Departamento_Disposicion");
 
                     b.Property<string>("Edificacion")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Departamento_Edificacion");
 
                     b.Property<decimal?>("FondoLibre")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Departamento_FondoLibre");
 
                     b.Property<string>("InstalacionesPropiedad")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Departamento_InstalacionesPropiedad");
 
                     b.Property<string>("Luminosidad")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Departamento_Luminosidad");
 
                     b.Property<string>("Orientacion")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Departamento_Orientacion");
 
                     b.Property<string>("Plantas")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Departamento_Plantas");
 
                     b.Property<string>("ServiciosEdificio")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Departamento_ServiciosEdificio");
 
                     b.Property<string>("ServiciosPropiedad")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Departamento_ServiciosPropiedad");
 
                     b.Property<decimal?>("SuperficieCubierta")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Departamento_SuperficieCubierta");
 
                     b.Property<decimal?>("SuperficieDescubierta")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Departamento_SuperficieDescubierta");
 
                     b.Property<decimal?>("SuperficieTotal")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Departamento_SuperficieTotal");
 
                     b.Property<string>("TipoBalcon")
                         .HasColumnType("TEXT");
@@ -469,79 +473,12 @@ namespace Inmobiliaria.Api.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("TipoPiso")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Departamento_TipoPiso");
 
                     b.Property<string>("TipoVigilancia")
-                        .HasColumnType("TEXT");
-
-                    b.ToTable("Propiedades", t =>
-                        {
-                            t.Property("AguaCaliente")
-                                .HasColumnName("Departamento_AguaCaliente");
-
-                            t.Property("AmenitiesEdificio")
-                                .HasColumnName("Departamento_AmenitiesEdificio");
-
-                            t.Property("Calefaccion")
-                                .HasColumnName("Departamento_Calefaccion");
-
-                            t.Property("CantidadBanos")
-                                .HasColumnName("Departamento_CantidadBanos");
-
-                            t.Property("CantidadDormitorios")
-                                .HasColumnName("Departamento_CantidadDormitorios");
-
-                            t.Property("CocherasCubiertas")
-                                .HasColumnName("Departamento_CocherasCubiertas");
-
-                            t.Property("CocherasDescubiertas")
-                                .HasColumnName("Departamento_CocherasDescubiertas");
-
-                            t.Property("CocherasSemicubiertas")
-                                .HasColumnName("Departamento_CocherasSemicubiertas");
-
-                            t.Property("Disposicion")
-                                .HasColumnName("Departamento_Disposicion");
-
-                            t.Property("Edificacion")
-                                .HasColumnName("Departamento_Edificacion");
-
-                            t.Property("FondoLibre")
-                                .HasColumnName("Departamento_FondoLibre");
-
-                            t.Property("InstalacionesPropiedad")
-                                .HasColumnName("Departamento_InstalacionesPropiedad");
-
-                            t.Property("Luminosidad")
-                                .HasColumnName("Departamento_Luminosidad");
-
-                            t.Property("Orientacion")
-                                .HasColumnName("Departamento_Orientacion");
-
-                            t.Property("Plantas")
-                                .HasColumnName("Departamento_Plantas");
-
-                            t.Property("ServiciosEdificio")
-                                .HasColumnName("Departamento_ServiciosEdificio");
-
-                            t.Property("ServiciosPropiedad")
-                                .HasColumnName("Departamento_ServiciosPropiedad");
-
-                            t.Property("SuperficieCubierta")
-                                .HasColumnName("Departamento_SuperficieCubierta");
-
-                            t.Property("SuperficieDescubierta")
-                                .HasColumnName("Departamento_SuperficieDescubierta");
-
-                            t.Property("SuperficieTotal")
-                                .HasColumnName("Departamento_SuperficieTotal");
-
-                            t.Property("TipoPiso")
-                                .HasColumnName("Departamento_TipoPiso");
-
-                            t.Property("TipoVigilancia")
-                                .HasColumnName("Departamento_TipoVigilancia");
-                        });
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Departamento_TipoVigilancia");
 
                     b.HasDiscriminator().HasValue("Departamento");
                 });
@@ -593,7 +530,8 @@ namespace Inmobiliaria.Api.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("InstalacionesPropiedad")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Emprendimiento_InstalacionesPropiedad");
 
                     b.Property<string>("LeyendaComercial")
                         .HasColumnType("TEXT");
@@ -614,16 +552,8 @@ namespace Inmobiliaria.Api.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("ServiciosPropiedad")
-                        .HasColumnType("TEXT");
-
-                    b.ToTable("Propiedades", t =>
-                        {
-                            t.Property("InstalacionesPropiedad")
-                                .HasColumnName("Emprendimiento_InstalacionesPropiedad");
-
-                            t.Property("ServiciosPropiedad")
-                                .HasColumnName("Emprendimiento_ServiciosPropiedad");
-                        });
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Emprendimiento_ServiciosPropiedad");
 
                     b.HasDiscriminator().HasValue("Emprendimiento");
                 });
@@ -648,13 +578,15 @@ namespace Inmobiliaria.Api.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<int?>("CantidadBanos")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("Galpon_CantidadBanos");
 
                     b.Property<int?>("CantidadColumnas")
                         .HasColumnType("INTEGER");
 
                     b.Property<int?>("CantidadDormitorios")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("Galpon_CantidadDormitorios");
 
                     b.Property<int?>("CantidadNaves")
                         .HasColumnType("INTEGER");
@@ -669,7 +601,8 @@ namespace Inmobiliaria.Api.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<decimal?>("FondoLibre")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Galpon_FondoLibre");
 
                     b.Property<decimal?>("Fos")
                         .HasColumnType("TEXT");
@@ -678,34 +611,43 @@ namespace Inmobiliaria.Api.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("InstalacionesPropiedad")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Galpon_InstalacionesPropiedad");
 
                     b.Property<string>("Luminosidad")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Galpon_Luminosidad");
 
                     b.Property<decimal?>("MedidasTerrenoAncho")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Galpon_MedidasTerrenoAncho");
 
                     b.Property<decimal?>("MedidasTerrenoLargo")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Galpon_MedidasTerrenoLargo");
 
                     b.Property<string>("ServiciosPropiedad")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Galpon_ServiciosPropiedad");
 
                     b.Property<decimal?>("SuperficieConstruible")
                         .HasColumnType("TEXT");
 
                     b.Property<decimal?>("SuperficieCubierta")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Galpon_SuperficieCubierta");
 
                     b.Property<decimal?>("SuperficieDescubierta")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Galpon_SuperficieDescubierta");
 
                     b.Property<decimal?>("SuperficieTerreno")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Galpon_SuperficieTerreno");
 
                     b.Property<decimal?>("SuperficieTotal")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Galpon_SuperficieTotal");
 
                     b.Property<string>("TipoGalpon")
                         .HasColumnType("TEXT");
@@ -717,52 +659,11 @@ namespace Inmobiliaria.Api.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("TipoTecho")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Galpon_TipoTecho");
 
                     b.Property<string>("TipoTechoIndustrial")
                         .HasColumnType("TEXT");
-
-                    b.ToTable("Propiedades", t =>
-                        {
-                            t.Property("CantidadBanos")
-                                .HasColumnName("Galpon_CantidadBanos");
-
-                            t.Property("CantidadDormitorios")
-                                .HasColumnName("Galpon_CantidadDormitorios");
-
-                            t.Property("FondoLibre")
-                                .HasColumnName("Galpon_FondoLibre");
-
-                            t.Property("InstalacionesPropiedad")
-                                .HasColumnName("Galpon_InstalacionesPropiedad");
-
-                            t.Property("Luminosidad")
-                                .HasColumnName("Galpon_Luminosidad");
-
-                            t.Property("MedidasTerrenoAncho")
-                                .HasColumnName("Galpon_MedidasTerrenoAncho");
-
-                            t.Property("MedidasTerrenoLargo")
-                                .HasColumnName("Galpon_MedidasTerrenoLargo");
-
-                            t.Property("ServiciosPropiedad")
-                                .HasColumnName("Galpon_ServiciosPropiedad");
-
-                            t.Property("SuperficieCubierta")
-                                .HasColumnName("Galpon_SuperficieCubierta");
-
-                            t.Property("SuperficieDescubierta")
-                                .HasColumnName("Galpon_SuperficieDescubierta");
-
-                            t.Property("SuperficieTerreno")
-                                .HasColumnName("Galpon_SuperficieTerreno");
-
-                            t.Property("SuperficieTotal")
-                                .HasColumnName("Galpon_SuperficieTotal");
-
-                            t.Property("TipoTecho")
-                                .HasColumnName("Galpon_TipoTecho");
-                        });
 
                     b.HasDiscriminator().HasValue("Galpon");
                 });
@@ -775,55 +676,71 @@ namespace Inmobiliaria.Api.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("AmenitiesEdificio")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Local_AmenitiesEdificio");
 
                     b.Property<int?>("CantidadBanos")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("Local_CantidadBanos");
 
                     b.Property<int?>("CantidadDormitorios")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("Local_CantidadDormitorios");
 
                     b.Property<int?>("CocherasCubiertas")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("Local_CocherasCubiertas");
 
                     b.Property<int?>("CocherasDescubiertas")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("Local_CocherasDescubiertas");
 
                     b.Property<int?>("CocherasSemicubiertas")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("Local_CocherasSemicubiertas");
 
                     b.Property<string>("InstalacionesPropiedad")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Local_InstalacionesPropiedad");
 
                     b.Property<string>("Luminosidad")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Local_Luminosidad");
 
                     b.Property<decimal?>("MedidasTerrenoAncho")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Local_MedidasTerrenoAncho");
 
                     b.Property<decimal?>("MedidasTerrenoLargo")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Local_MedidasTerrenoLargo");
 
                     b.Property<string>("Orientacion")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Local_Orientacion");
 
                     b.Property<string>("Plantas")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Local_Plantas");
 
                     b.Property<string>("ServiciosEdificio")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Local_ServiciosEdificio");
 
                     b.Property<string>("ServiciosPropiedad")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Local_ServiciosPropiedad");
 
                     b.Property<string>("Situado")
                         .HasColumnType("TEXT");
 
                     b.Property<decimal?>("SuperficieCubierta")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Local_SuperficieCubierta");
 
                     b.Property<decimal?>("SuperficieDescubierta")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Local_SuperficieDescubierta");
 
                     b.Property<decimal?>("SuperficieEntrepiso")
                         .HasColumnType("TEXT");
@@ -835,64 +752,11 @@ namespace Inmobiliaria.Api.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<decimal?>("SuperficieTotal")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Local_SuperficieTotal");
 
                     b.Property<string>("UltimoDestino")
                         .HasColumnType("TEXT");
-
-                    b.ToTable("Propiedades", t =>
-                        {
-                            t.Property("AmenitiesEdificio")
-                                .HasColumnName("Local_AmenitiesEdificio");
-
-                            t.Property("CantidadBanos")
-                                .HasColumnName("Local_CantidadBanos");
-
-                            t.Property("CantidadDormitorios")
-                                .HasColumnName("Local_CantidadDormitorios");
-
-                            t.Property("CocherasCubiertas")
-                                .HasColumnName("Local_CocherasCubiertas");
-
-                            t.Property("CocherasDescubiertas")
-                                .HasColumnName("Local_CocherasDescubiertas");
-
-                            t.Property("CocherasSemicubiertas")
-                                .HasColumnName("Local_CocherasSemicubiertas");
-
-                            t.Property("InstalacionesPropiedad")
-                                .HasColumnName("Local_InstalacionesPropiedad");
-
-                            t.Property("Luminosidad")
-                                .HasColumnName("Local_Luminosidad");
-
-                            t.Property("MedidasTerrenoAncho")
-                                .HasColumnName("Local_MedidasTerrenoAncho");
-
-                            t.Property("MedidasTerrenoLargo")
-                                .HasColumnName("Local_MedidasTerrenoLargo");
-
-                            t.Property("Orientacion")
-                                .HasColumnName("Local_Orientacion");
-
-                            t.Property("Plantas")
-                                .HasColumnName("Local_Plantas");
-
-                            t.Property("ServiciosEdificio")
-                                .HasColumnName("Local_ServiciosEdificio");
-
-                            t.Property("ServiciosPropiedad")
-                                .HasColumnName("Local_ServiciosPropiedad");
-
-                            t.Property("SuperficieCubierta")
-                                .HasColumnName("Local_SuperficieCubierta");
-
-                            t.Property("SuperficieDescubierta")
-                                .HasColumnName("Local_SuperficieDescubierta");
-
-                            t.Property("SuperficieTotal")
-                                .HasColumnName("Local_SuperficieTotal");
-                        });
 
                     b.HasDiscriminator().HasValue("Local");
                 });
@@ -902,82 +766,108 @@ namespace Inmobiliaria.Api.Migrations
                     b.HasBaseType("Inmobiliaria.Api.Models.Propiedad");
 
                     b.Property<string>("AguaCaliente")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("AguaCaliente");
 
                     b.Property<string>("AmenitiesEdificio")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("AmenitiesEdificio");
 
                     b.Property<string>("Calefaccion")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Calefaccion");
 
                     b.Property<int?>("CantidadBanos")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("CantidadBanos");
 
                     b.Property<int?>("CantidadDormitorios")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("CantidadDormitorios");
 
                     b.Property<int?>("CocherasCubiertas")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("CocherasCubiertas");
 
                     b.Property<int?>("CocherasDescubiertas")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("CocherasDescubiertas");
 
                     b.Property<int?>("CocherasSemicubiertas")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("CocherasSemicubiertas");
 
                     b.Property<string>("Disposicion")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Disposicion");
 
                     b.Property<string>("Edificacion")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Edificacion");
 
                     b.Property<decimal?>("FondoLibre")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("FondoLibre");
 
                     b.Property<string>("InstalacionesPropiedad")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("InstalacionesPropiedad");
 
                     b.Property<string>("Luminosidad")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Luminosidad");
 
                     b.Property<decimal?>("MedidasTerrenoAncho")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("MedidasTerrenoAncho");
 
                     b.Property<decimal?>("MedidasTerrenoLargo")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("MedidasTerrenoLargo");
 
                     b.Property<string>("Orientacion")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Orientacion");
 
                     b.Property<string>("Plantas")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Plantas");
 
                     b.Property<string>("ServiciosEdificio")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("ServiciosEdificio");
 
                     b.Property<string>("ServiciosPropiedad")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("ServiciosPropiedad");
 
                     b.Property<decimal?>("SuperficieCubierta")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("SuperficieCubierta");
 
                     b.Property<decimal?>("SuperficieDescubierta")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("SuperficieDescubierta");
 
                     b.Property<decimal?>("SuperficieTerreno")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("SuperficieTerreno");
 
                     b.Property<decimal?>("SuperficieTotal")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("SuperficieTotal");
 
                     b.Property<string>("TipoPiso")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("TipoPiso");
 
                     b.Property<string>("TipoTecho")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("TipoTecho");
 
                     b.Property<string>("TipoVigilancia")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("TipoVigilancia");
 
                     b.HasDiscriminator().HasValue("PH");
                 });
@@ -987,151 +877,107 @@ namespace Inmobiliaria.Api.Migrations
                     b.HasBaseType("Inmobiliaria.Api.Models.Propiedad");
 
                     b.Property<string>("AguaCaliente")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Quinta_AguaCaliente");
 
                     b.Property<string>("Calefaccion")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Quinta_Calefaccion");
 
                     b.Property<int?>("CantidadBanos")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("Quinta_CantidadBanos");
 
                     b.Property<int?>("CantidadDormitorios")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("Quinta_CantidadDormitorios");
 
                     b.Property<int?>("CocherasCubiertas")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("Quinta_CocherasCubiertas");
 
                     b.Property<int?>("CocherasDescubiertas")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("Quinta_CocherasDescubiertas");
 
                     b.Property<int?>("CocherasSemicubiertas")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("Quinta_CocherasSemicubiertas");
 
                     b.Property<string>("DetalleAcceso")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("DetalleAcceso");
 
                     b.Property<decimal?>("DistanciaPavimentoKm")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Edificacion")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Quinta_Edificacion");
 
                     b.Property<decimal?>("FondoLibre")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Quinta_FondoLibre");
 
                     b.Property<string>("FormaTerreno")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("FormaTerreno");
 
                     b.Property<string>("Instalaciones")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Quinta_Instalaciones");
 
                     b.Property<string>("Luminosidad")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Quinta_Luminosidad");
 
                     b.Property<decimal?>("MedidasTerrenoAncho")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Quinta_MedidasTerrenoAncho");
 
                     b.Property<decimal?>("MedidasTerrenoLargo")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Quinta_MedidasTerrenoLargo");
 
                     b.Property<string>("Orientacion")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Quinta_Orientacion");
 
                     b.Property<string>("Plantas")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Quinta_Plantas");
 
                     b.Property<string>("Servicios")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Quinta_Servicios");
 
                     b.Property<decimal?>("SuperficieCubierta")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Quinta_SuperficieCubierta");
 
                     b.Property<decimal?>("SuperficieDescubierta")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Quinta_SuperficieDescubierta");
 
                     b.Property<decimal?>("SuperficieTerreno")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Quinta_SuperficieTerreno");
 
                     b.Property<decimal?>("SuperficieTotal")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Quinta_SuperficieTotal");
 
                     b.Property<string>("TipoPiso")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Quinta_TipoPiso");
 
                     b.Property<string>("TipoTecho")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Quinta_TipoTecho");
 
                     b.Property<string>("UnidadSuperficieTotal")
-                        .HasColumnType("TEXT");
-
-                    b.ToTable("Propiedades", t =>
-                        {
-                            t.Property("AguaCaliente")
-                                .HasColumnName("Quinta_AguaCaliente");
-
-                            t.Property("Calefaccion")
-                                .HasColumnName("Quinta_Calefaccion");
-
-                            t.Property("CantidadBanos")
-                                .HasColumnName("Quinta_CantidadBanos");
-
-                            t.Property("CantidadDormitorios")
-                                .HasColumnName("Quinta_CantidadDormitorios");
-
-                            t.Property("CocherasCubiertas")
-                                .HasColumnName("Quinta_CocherasCubiertas");
-
-                            t.Property("CocherasDescubiertas")
-                                .HasColumnName("Quinta_CocherasDescubiertas");
-
-                            t.Property("CocherasSemicubiertas")
-                                .HasColumnName("Quinta_CocherasSemicubiertas");
-
-                            t.Property("Edificacion")
-                                .HasColumnName("Quinta_Edificacion");
-
-                            t.Property("FondoLibre")
-                                .HasColumnName("Quinta_FondoLibre");
-
-                            t.Property("Instalaciones")
-                                .HasColumnName("Quinta_Instalaciones");
-
-                            t.Property("Luminosidad")
-                                .HasColumnName("Quinta_Luminosidad");
-
-                            t.Property("MedidasTerrenoAncho")
-                                .HasColumnName("Quinta_MedidasTerrenoAncho");
-
-                            t.Property("MedidasTerrenoLargo")
-                                .HasColumnName("Quinta_MedidasTerrenoLargo");
-
-                            t.Property("Orientacion")
-                                .HasColumnName("Quinta_Orientacion");
-
-                            t.Property("Plantas")
-                                .HasColumnName("Quinta_Plantas");
-
-                            t.Property("Servicios")
-                                .HasColumnName("Quinta_Servicios");
-
-                            t.Property("SuperficieCubierta")
-                                .HasColumnName("Quinta_SuperficieCubierta");
-
-                            t.Property("SuperficieDescubierta")
-                                .HasColumnName("Quinta_SuperficieDescubierta");
-
-                            t.Property("SuperficieTerreno")
-                                .HasColumnName("Quinta_SuperficieTerreno");
-
-                            t.Property("SuperficieTotal")
-                                .HasColumnName("Quinta_SuperficieTotal");
-
-                            t.Property("TipoPiso")
-                                .HasColumnName("Quinta_TipoPiso");
-
-                            t.Property("TipoTecho")
-                                .HasColumnName("Quinta_TipoTecho");
-                        });
+                        .HasColumnType("TEXT")
+                        .HasColumnName("UnidadSuperficieTotal");
 
                     b.HasDiscriminator().HasValue("Quinta");
                 });
@@ -1141,10 +987,12 @@ namespace Inmobiliaria.Api.Migrations
                     b.HasBaseType("Inmobiliaria.Api.Models.Propiedad");
 
                     b.Property<string>("DetalleAcceso")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Terreno_DetalleAcceso");
 
                     b.Property<string>("FormaTerreno")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Terreno_FormaTerreno");
 
                     b.Property<decimal?>("FosPercent")
                         .HasColumnType("TEXT");
@@ -1153,25 +1001,31 @@ namespace Inmobiliaria.Api.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Instalaciones")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Terreno_Instalaciones");
 
                     b.Property<decimal?>("MedidasTerrenoAncho")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Terreno_MedidasTerrenoAncho");
 
                     b.Property<decimal?>("MedidasTerrenoLargo")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Terreno_MedidasTerrenoLargo");
 
                     b.Property<string>("Servicios")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Terreno_Servicios");
 
                     b.Property<decimal?>("SuperficieConstruibleMetros")
                         .HasColumnType("TEXT");
 
                     b.Property<decimal?>("SuperficieCubierta")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Terreno_SuperficieCubierta");
 
                     b.Property<decimal?>("SuperficieTotal")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Terreno_SuperficieTotal");
 
                     b.Property<string>("TipoEstructuraTerreno")
                         .HasColumnType("TEXT");
@@ -1186,37 +1040,8 @@ namespace Inmobiliaria.Api.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("UnidadSuperficieTotal")
-                        .HasColumnType("TEXT");
-
-                    b.ToTable("Propiedades", t =>
-                        {
-                            t.Property("DetalleAcceso")
-                                .HasColumnName("Terreno_DetalleAcceso");
-
-                            t.Property("FormaTerreno")
-                                .HasColumnName("Terreno_FormaTerreno");
-
-                            t.Property("Instalaciones")
-                                .HasColumnName("Terreno_Instalaciones");
-
-                            t.Property("MedidasTerrenoAncho")
-                                .HasColumnName("Terreno_MedidasTerrenoAncho");
-
-                            t.Property("MedidasTerrenoLargo")
-                                .HasColumnName("Terreno_MedidasTerrenoLargo");
-
-                            t.Property("Servicios")
-                                .HasColumnName("Terreno_Servicios");
-
-                            t.Property("SuperficieCubierta")
-                                .HasColumnName("Terreno_SuperficieCubierta");
-
-                            t.Property("SuperficieTotal")
-                                .HasColumnName("Terreno_SuperficieTotal");
-
-                            t.Property("UnidadSuperficieTotal")
-                                .HasColumnName("Terreno_UnidadSuperficieTotal");
-                        });
+                        .HasColumnType("TEXT")
+                        .HasColumnName("Terreno_UnidadSuperficieTotal");
 
                     b.HasDiscriminator().HasValue("Terreno");
                 });

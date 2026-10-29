@@ -25,6 +25,7 @@ const TIPO_LABELS: Record<string, string> = {
   Galpon: 'Galpón',
   Local: 'Local',
   Emprendimiento: 'Emprendimiento',
+  Cochera: 'Cochera',
 };
 
 function escapeHtml(texto: string): string {

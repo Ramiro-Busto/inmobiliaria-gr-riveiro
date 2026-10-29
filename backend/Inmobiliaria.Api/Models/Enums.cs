@@ -10,7 +10,8 @@ public enum TipoPropiedad
     Quinta,
     Terreno,
     PH,
-    Emprendimiento
+    Emprendimiento,
+    Cochera
 }
 
 public enum Operacion

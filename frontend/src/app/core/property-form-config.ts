@@ -233,6 +233,15 @@ const camposPH: FieldConfig[] = [
   texto('serviciosPropiedad', 'Servicios (separados por coma)'),
 ];
 
+const camposCochera: FieldConfig[] = [
+  select('tipoCochera', 'Tipo de cochera', ['Simple', 'Doble', 'Múltiple']),
+  select('ubicacion', 'Ubicación', ['Planta baja', 'Subsuelo 1', 'Subsuelo 2', 'Subsuelo 3 o más']),
+  numero('superficieTotal', 'Superficie total (m²)'),
+  check('techada', 'Techada'),
+  check('portonAutomatico', 'Portón automático'),
+  texto('servicios', 'Servicios (separados por coma)'),
+];
+
 const camposEmprendimiento: FieldConfig[] = [
   texto('nombre', 'Nombre del emprendimiento', true),
   texto('leyendaComercial', 'Leyenda comercial'),
@@ -253,6 +262,7 @@ export const CAMPOS_POR_TIPO: Record<TipoPropiedad, FieldConfig[]> = {
   Terreno: camposTerreno,
   PH: camposPH,
   Emprendimiento: camposEmprendimiento,
+  Cochera: camposCochera,
 };
 
 export const TIPOS_PROPIEDAD: TipoPropiedad[] = [
@@ -263,6 +273,7 @@ export const TIPOS_PROPIEDAD: TipoPropiedad[] = [
   'PH',
   'Galpon',
   'Local',
+  'Cochera',
   'Emprendimiento',
 ];
 
@@ -277,6 +288,7 @@ export const TIPO_LABELS: Record<TipoPropiedad, string> = {
   Galpon: 'Galpón',
   Local: 'Local',
   Emprendimiento: 'Emprendimiento',
+  Cochera: 'Cochera',
 };
 
 // --- Datos para los 4 menús desplegables de la ficha de propiedad ---
